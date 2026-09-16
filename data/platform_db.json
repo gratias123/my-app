@@ -1,0 +1,261 @@
+{
+  "users": [
+    {
+      "id": "usr_admin_owner_01",
+      "fullName": "SEMAKO Déo-Gratias",
+      "email": "semakodeogratias02@gmail.com",
+      "passwordHash": "099f9b86442f16c27b7043299b74e1232e313f95709d93bdd356e144e85b8eb882b370ba734fc8bc99563d476b44ef2e3ba7b17c204db81a17e11a52a052b462",
+      "salt": "2e0c2c04ce1cda13342be491a436fbe4",
+      "role": "admin",
+      "status": "active",
+      "createdAt": "2026-09-15T06:27:51.613Z",
+      "slug": "semako-deo-gratias"
+    },
+    {
+      "id": "usr_1789453676436_c5a09627",
+      "fullName": "User Alice",
+      "email": "alice@test.com",
+      "passwordHash": "ccbf85d474e46e513b306b954bf11790c25c9e24b10973ab76fdecf2cb82598a3dc051e114fddc48c2d812237f4202efc803af312d7b4909e4c9780938696f96",
+      "salt": "d3fcd0843ad4f27edd5a918433ff0da0",
+      "role": "user",
+      "status": "active",
+      "createdAt": "2026-09-15T06:27:56.436Z",
+      "slug": "user-alice"
+    },
+    {
+      "id": "usr_1789453676523_03f8e05e",
+      "fullName": "User Bob",
+      "email": "bob@test.com",
+      "passwordHash": "68a79552fecf41be4715cda50c48168539d4fb333c6026e6eb87cb252f8ad63b2052bc7d4a37e589590b5f7ee578389d568372d1e6943dcf542bef18152de39a",
+      "salt": "46b874e7643b570c044914de28192abe",
+      "role": "user",
+      "status": "active",
+      "createdAt": "2026-09-15T06:27:56.523Z",
+      "slug": "user-bob"
+    },
+    {
+      "id": "usr_1789453696765_35dc6800",
+      "fullName": "Utilisateur A",
+      "email": "user_a_1789453696693@test.com",
+      "passwordHash": "23cbf18c25b4151b790c16f9a031ae386a5b743de3a24071e97adf912b5a77987769d4e01b20769398af3bd82039b5e4ed7f8fe4524b858233caf8aa84a6351f",
+      "salt": "7f133c5a31824ec2057322a968b7d9d7",
+      "role": "user",
+      "status": "active",
+      "createdAt": "2026-09-15T06:28:16.765Z",
+      "slug": "utilisateur-a"
+    },
+    {
+      "id": "usr_1789453696918_e717afcb",
+      "fullName": "Utilisateur B",
+      "email": "user_b_1789453696850@test.com",
+      "passwordHash": "344bbd2bc69a6f0c11428aaf543720e60811892571b7239b78a0a922ae5b5e8c28cf306b1966e3390c93a8a05f54b2fa43ac7eb30ba727f3f28f61fc23d21b9a",
+      "salt": "19728f71ab98157076bc1e7deec8f8e4",
+      "role": "user",
+      "status": "active",
+      "createdAt": "2026-09-15T06:28:16.918Z",
+      "slug": "utilisateur-b"
+    }
+  ],
+  "portfolios": [
+    {
+      "id": "port_admin_owner_01",
+      "userId": "usr_admin_owner_01",
+      "slug": "semako-deo-gratias",
+      "data": {
+        "identity": {
+          "name": "SEMAKO Déo-Gratias",
+          "brandName": "GratiaLink",
+          "mainTitle": "Technicien Informatique & UI Designer Confirmé",
+          "email": "semakodeogratias@gmail.com",
+          "phone": "+229 01 64 69 06 82",
+          "location": "Porto-Novo, Bénin"
+        },
+        "about": {
+          "tagline": "Maintenance des équipements, solutions numériques et création visuelle",
+          "heroSummary": "Mon parcours associe la technique informatique, la maintenance des équipements, la création graphique et l’exploration des outils numériques.",
+          "presentation": "Présentation mise à jour dynamiquement depuis l’administration privée."
+        },
+        "skills": [],
+        "experiences": [],
+        "education": [],
+        "formations": [],
+        "certifications": []
+      },
+      "status": "published",
+      "createdAt": "2026-09-15T06:27:51.614Z",
+      "updatedAt": "2026-09-15T06:28:16.929Z",
+      "publishedAt": "2026-09-15T06:27:51.614Z",
+      "stats": {
+        "viewsCount": 1,
+        "cvDownloadsCount": 0
+      }
+    },
+    {
+      "id": "port_1789453676436_d50ab50c",
+      "userId": "usr_1789453676436_c5a09627",
+      "slug": "user-alice",
+      "data": {
+        "identity": {
+          "name": "Alice Modifiée",
+          "mainTitle": "Architecte Logiciel"
+        },
+        "about": {
+          "tagline": "Tagline Alice",
+          "heroSummary": "Hero Alice",
+          "presentation": "Présentation Alice"
+        },
+        "skills": [],
+        "experiences": [],
+        "education": [],
+        "formations": [],
+        "certifications": []
+      },
+      "status": "published",
+      "createdAt": "2026-09-15T06:27:56.436Z",
+      "updatedAt": "2026-09-15T06:27:56.453Z",
+      "stats": {
+        "viewsCount": 0,
+        "cvDownloadsCount": 0
+      },
+      "publishedAt": "2026-09-15T06:27:56.453Z"
+    },
+    {
+      "id": "port_1789453676523_236c4026",
+      "userId": "usr_1789453676523_03f8e05e",
+      "slug": "user-bob",
+      "data": {
+        "identity": {
+          "name": "Bob Modifié",
+          "mainTitle": "Designer"
+        },
+        "about": {
+          "tagline": "Tagline Bob",
+          "heroSummary": "",
+          "presentation": ""
+        },
+        "skills": [],
+        "experiences": [],
+        "education": [],
+        "formations": [],
+        "certifications": []
+      },
+      "status": "published",
+      "createdAt": "2026-09-15T06:27:56.523Z",
+      "updatedAt": "2026-09-15T06:27:56.528Z",
+      "stats": {
+        "viewsCount": 0,
+        "cvDownloadsCount": 0
+      },
+      "publishedAt": "2026-09-15T06:27:56.528Z"
+    },
+    {
+      "id": "port_1789453696765_633f917c",
+      "userId": "usr_1789453696765_35dc6800",
+      "slug": "utilisateur-a",
+      "data": {
+        "identity": {
+          "name": "Utilisateur A Modifié",
+          "mainTitle": "Technicien Réseaux"
+        },
+        "about": {
+          "tagline": "Tagline A",
+          "heroSummary": "Hero A",
+          "presentation": "Présentation A"
+        },
+        "skills": [
+          {
+            "id": "s1",
+            "name": "Maintenance PC",
+            "category": "Maintenance & Réseaux",
+            "levelOrDesc": "Avancé"
+          }
+        ],
+        "experiences": [],
+        "education": [],
+        "formations": [],
+        "certifications": []
+      },
+      "status": "published",
+      "createdAt": "2026-09-15T06:28:16.765Z",
+      "updatedAt": "2026-09-15T06:28:16.849Z",
+      "stats": {
+        "viewsCount": 0,
+        "cvDownloadsCount": 0
+      },
+      "publishedAt": "2026-09-15T06:28:16.849Z"
+    },
+    {
+      "id": "port_1789453696919_0d4557cf",
+      "userId": "usr_1789453696918_e717afcb",
+      "slug": "utilisateur-b",
+      "data": {
+        "identity": {
+          "name": "Utilisateur B Modifié",
+          "mainTitle": "Graphiste"
+        },
+        "about": {
+          "tagline": "Tagline B",
+          "heroSummary": "",
+          "presentation": ""
+        },
+        "skills": [],
+        "experiences": [],
+        "education": [],
+        "formations": [],
+        "certifications": []
+      },
+      "status": "published",
+      "createdAt": "2026-09-15T06:28:16.919Z",
+      "updatedAt": "2026-09-15T06:28:16.923Z",
+      "stats": {
+        "viewsCount": 0,
+        "cvDownloadsCount": 0
+      },
+      "publishedAt": "2026-09-15T06:28:16.923Z"
+    }
+  ],
+  "sessions": [
+    {
+      "token": "sess_9da9ba670db5741fb09cc8d18208f84dbec1466232053700a0a046b135fe6dc4",
+      "userId": "usr_1789453676436_c5a09627",
+      "role": "user",
+      "createdAt": 1789453676436,
+      "expiresAt": 1790058476436
+    },
+    {
+      "token": "sess_a026439fe621a231c200bff98520b05833ff2b7eefde1febdb3df944dbc3eb98",
+      "userId": "usr_1789453676523_03f8e05e",
+      "role": "user",
+      "createdAt": 1789453676524,
+      "expiresAt": 1790058476524
+    },
+    {
+      "token": "sess_ca7f60bf08b12757e33afa4b2a377b25ac447d1cc1da6dfbf087e0a706a281a2",
+      "userId": "usr_admin_owner_01",
+      "role": "admin",
+      "createdAt": 1789453689763,
+      "expiresAt": 1789540089763
+    },
+    {
+      "token": "sess_005febd59edf131cf017e65d11334e114061d5a3d31ccac59709e3ceb941f9cc",
+      "userId": "usr_1789453696765_35dc6800",
+      "role": "user",
+      "createdAt": 1789453696765,
+      "expiresAt": 1790058496765
+    },
+    {
+      "token": "sess_fa73a3bdae8b325a7266d07cf09e7736c60e0b9a7d496d341133ffc27eb24725",
+      "userId": "usr_1789453696918_e717afcb",
+      "role": "user",
+      "createdAt": 1789453696919,
+      "expiresAt": 1790058496919
+    },
+    {
+      "token": "sess_0205a052fc85c43d89ea87a67f921c7b269ce80695e36688e7149204ed0f475b",
+      "userId": "usr_admin_owner_01",
+      "role": "admin",
+      "createdAt": 1789453697003,
+      "expiresAt": 1789540097003
+    }
+  ]
+}
