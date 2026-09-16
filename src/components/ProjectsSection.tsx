@@ -1,10 +1,12 @@
 import React from 'react';
 import { FolderGit2, ExternalLink, Code2 } from 'lucide-react';
 import { usePortfolio } from '../context/PortfolioContext';
+import { useLanguage } from '../context/LanguageContext';
 import { ScrollReveal } from './ScrollReveal';
 
 export const ProjectsSection: React.FC = () => {
   const { data } = usePortfolio();
+  const { isEn, t } = useLanguage();
   const { projects } = data;
 
   if (!projects || !projects.enabled || !projects.items || projects.items.length === 0) {
@@ -18,13 +20,15 @@ export const ProjectsSection: React.FC = () => {
           <div className="text-center max-w-3xl mx-auto mb-16">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-800 mb-3 border border-blue-200">
               <FolderGit2 className="w-3.5 h-3.5 text-blue-600" />
-              <span>Réalisations & Projets</span>
+              <span>{t('projects.badge')}</span>
             </div>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 font-heading">
-              Projets & Réalisations
+              {t('projects.title')}
             </h2>
             <p className="text-slate-600 mt-3 text-sm sm:text-base">
-              Sélection de projets récents, réalisations techniques et conceptions visuelles.
+              {isEn
+                ? 'Selection of technical accomplishments, web apps, and visual designs.'
+                : 'Sélection de projets récents, réalisations techniques et conceptions visuelles.'}
             </p>
             <div className="w-16 h-1 bg-blue-600 rounded-full mx-auto mt-4"></div>
           </div>
@@ -62,12 +66,12 @@ export const ProjectsSection: React.FC = () => {
                   <div>
                     {proj.tools && proj.tools.length > 0 && (
                       <div className="flex flex-wrap gap-1.5 mb-4">
-                        {proj.tools.map((t, tIdx) => (
+                        {proj.tools.map((tItem, tIdx) => (
                           <span
                             key={tIdx}
                             className="px-2 py-0.5 rounded text-[11px] font-medium bg-slate-100 text-slate-700 border border-slate-200"
                           >
-                            {t}
+                            {tItem}
                           </span>
                         ))}
                       </div>
@@ -80,7 +84,7 @@ export const ProjectsSection: React.FC = () => {
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-600 hover:text-blue-800 transition-colors"
                       >
-                        <span>Consulter le projet</span>
+                        <span>{t('projects.viewProject')}</span>
                         <ExternalLink className="w-3.5 h-3.5" />
                       </a>
                     )}

@@ -17,6 +17,7 @@ import { PrintResumeModal } from './components/PrintResumeModal';
 import { PortfolioProvider } from './context/PortfolioContext';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { RouterProvider } from './context/RouterContext';
+import { LanguageProvider } from './context/LanguageContext';
 import { useAppRouter } from './hooks/useAppRouter';
 import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
@@ -225,6 +226,7 @@ function AppContent() {
         <Footer
           onOpenGuide={() => setIsGuideOpen(true)}
           onOpenPrint={() => handleOpenPrintResume(ownerPortfolioData)}
+          onNavigate={navigate}
         />
 
         {/* Floating Back to Top Button */}
@@ -249,10 +251,12 @@ function AppContent() {
 
 export default function App() {
   return (
-    <RouterProvider>
-      <AuthProvider>
-        <AppContent />
-      </AuthProvider>
-    </RouterProvider>
+    <LanguageProvider>
+      <RouterProvider>
+        <AuthProvider>
+          <AppContent />
+        </AuthProvider>
+      </RouterProvider>
+    </LanguageProvider>
   );
 }

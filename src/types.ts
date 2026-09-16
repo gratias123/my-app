@@ -57,7 +57,14 @@ export interface CertificationItem {
 
 export interface DigitalTool {
   name: string;
-  category: 'Design & UI/UX' | 'Développement Web' | 'Éditeur & Versioning' | 'Bureautique & Réseau';
+  category:
+    | 'Design & UI/UX'
+    | 'Développement Web'
+    | 'Éditeur & Versioning'
+    | 'Bureautique & Réseau'
+    | 'Web Development'
+    | 'Editor & Versioning'
+    | 'Office & Network';
   icon: string;
   description: string;
 }

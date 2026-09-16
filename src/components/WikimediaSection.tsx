@@ -1,8 +1,11 @@
 import React from 'react';
-import { Globe, Database, BookOpen, Share2, Sparkles, CheckCircle, ExternalLink } from 'lucide-react';
+import { Globe, Database, BookOpen, Share2, CheckCircle } from 'lucide-react';
 import { ScrollReveal } from './ScrollReveal';
+import { useLanguage } from '../context/LanguageContext';
 
 export const WikimediaSection: React.FC = () => {
+  const { isEn, t } = useLanguage();
+
   return (
     <section id="wikimedia" className="py-20 bg-slate-900 text-white border-b border-slate-800 relative overflow-hidden">
       
@@ -22,13 +25,15 @@ export const WikimediaSection: React.FC = () => {
           <div className="max-w-3xl mb-12">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-blue-900/60 text-blue-300 text-xs font-semibold uppercase tracking-wider mb-3 border border-blue-700/50">
               <Globe className="w-3.5 h-3.5 text-blue-400" />
-              Écosystème du savoir ouvert
+              {t('wikimedia.badge')}
             </div>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-white font-heading tracking-tight">
-              Wikimedia et connaissance libre
+              {t('wikimedia.title')}
             </h2>
             <p className="text-slate-300 mt-2 text-sm sm:text-base">
-              Participer activement à la diffusion du savoir encyclopédique, structurer les données ouvertes et valoriser le patrimoine documentaire.
+              {isEn
+                ? 'Actively contributing to encyclopedic open knowledge, structuring open data, and spotlighting local cultural heritage.'
+                : 'Participer activement à la diffusion du savoir encyclopédique, structurer les données ouvertes et valoriser le patrimoine documentaire.'}
             </p>
             <div className="w-16 h-1 bg-blue-500 rounded-full mt-4"></div>
           </div>
@@ -40,24 +45,40 @@ export const WikimediaSection: React.FC = () => {
           <ScrollReveal animation="fade-left" delay={120} className="lg:col-span-7">
             <div className="bg-slate-800/80 rounded-2xl p-6 sm:p-8 border border-slate-700 flex flex-col justify-between h-full">
               <div className="space-y-4 text-slate-300 text-sm leading-relaxed">
-                <p>
-                  L'engagement dans l'univers Wikimedia représente pour moi une passerelle essentielle entre la technique informatique et la responsabilité citoyenne du numérique. Plutôt que de rester simple consommateur passif d'Internet, contribuer permet d'agir concrètement pour la qualité de l'information accessible à tous.
-                </p>
-                <p>
-                  Cette démarche implique une rigueur méthodologique permanente : respect strict de la neutralité de point de vue, vérification scrupuleuse de sources admissibles et indépendantes, et structuration minutieuse des données pour les rendre interopérables et pérennes.
-                </p>
-                <p>
-                  C'est également une formidable opportunité de valoriser les savoirs locaux, les personnalités, les institutions et les richesses culturelles du Bénin et d'Afrique sur les plateformes les plus consultées au monde.
-                </p>
+                {isEn ? (
+                  <>
+                    <p>
+                      Involvement in the Wikimedia movement represents an essential bridge between technical computer skills and civic digital responsibility. Rather than remaining a passive consumer of the Internet, contributing empowers me to take concrete action for the quality of information accessible to everyone.
+                    </p>
+                    <p>
+                      This commitment demands constant methodological rigor: strict adherence to neutral point of view, meticulous verification of reliable and independent sources, and precise data modeling to make knowledge interoperable and lasting.
+                    </p>
+                    <p>
+                      It also presents an invaluable opportunity to document and highlight local knowledge, prominent figures, institutions, and cultural heritage of Benin and Africa across the most widely consulted platforms in the world.
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <p>
+                      L'engagement dans l'univers Wikimedia représente pour moi une passerelle essentielle entre la technique informatique et la responsabilité citoyenne du numérique. Plutôt que de rester simple consommateur passif d'Internet, contribuer permet d'agir concrètement pour la qualité de l'information accessible à tous.
+                    </p>
+                    <p>
+                      Cette démarche implique une rigueur méthodologique permanente : respect strict de la neutralité de point de vue, vérification scrupuleuse de sources admissibles et indépendantes, et structuration minutieuse des données pour les rendre interopérables et pérennes.
+                    </p>
+                    <p>
+                      C'est également une formidable opportunité de valoriser les savoirs locaux, les personnalités, les institutions et les richesses culturelles du Bénin et d'Afrique sur les plateformes les plus consultées au monde.
+                    </p>
+                  </>
+                )}
               </div>
 
               <div className="mt-6 pt-5 border-t border-slate-700 grid grid-cols-2 gap-4">
                 <div>
                   <span className="text-xl sm:text-2xl font-bold text-white font-heading block">
-                    Wikipédia
+                    {isEn ? 'Wikipedia' : 'Wikipédia'}
                   </span>
                   <span className="text-xs text-blue-300">
-                    Rédaction & vérification de sources
+                    {isEn ? 'Editing & source verification' : 'Rédaction & vérification de sources'}
                   </span>
                 </div>
                 <div>
@@ -65,7 +86,7 @@ export const WikimediaSection: React.FC = () => {
                     Wikidata
                   </span>
                   <span className="text-xs text-blue-300">
-                    Données ouvertes et structurées
+                    {isEn ? 'Structured & linked open data' : 'Données ouvertes et structurées'}
                   </span>
                 </div>
               </div>
@@ -81,10 +102,12 @@ export const WikimediaSection: React.FC = () => {
               </div>
               <div>
                 <h3 className="text-sm font-bold text-white font-heading">
-                  Connaissance libre & partage
+                  {isEn ? 'Open Knowledge & Sharing' : 'Connaissance libre & partage'}
                 </h3>
                 <p className="text-xs text-slate-300 mt-1 leading-relaxed">
-                  Défendre l'accès universel et gratuit au savoir vérifié, accessible sans restriction commerciale ou barrière technique.
+                  {isEn
+                    ? 'Advocating universal, barrier-free access to verified knowledge without commercial locks or paywalls.'
+                    : "Défendre l'accès universel et gratuit au savoir vérifié, accessible sans restriction commerciale ou barrière technique."}
                 </p>
               </div>
             </div>
@@ -95,10 +118,12 @@ export const WikimediaSection: React.FC = () => {
               </div>
               <div>
                 <h3 className="text-sm font-bold text-white font-heading">
-                  Structuration de données (Wikidata)
+                  {isEn ? 'Data Structuring (Wikidata)' : 'Structuration de données (Wikidata)'}
                 </h3>
                 <p className="text-xs text-slate-300 mt-1 leading-relaxed">
-                  Alimenter le graphe de connaissances avec des identifiants précis, facilitant l'interconnexion mondiale des métadonnées.
+                  {isEn
+                    ? 'Enriching global knowledge graphs with precise identifiers, empowering open metadata interconnection.'
+                    : "Alimenter le graphe de connaissances avec des identifiants précis, facilitant l'interconnexion mondiale des métadonnées."}
                 </p>
               </div>
             </div>
@@ -109,10 +134,12 @@ export const WikimediaSection: React.FC = () => {
               </div>
               <div>
                 <h3 className="text-sm font-bold text-white font-heading">
-                  Valorisation des contenus
+                  {isEn ? 'Content Outreach & Preservation' : 'Valorisation des contenus'}
                 </h3>
                 <p className="text-xs text-slate-300 mt-1 leading-relaxed">
-                  Documenter le patrimoine matériel et immatériel régional pour combler les fossés linguistiques et documentaires sur le web.
+                  {isEn
+                    ? 'Documenting regional tangible and intangible heritage to bridge linguistic and cultural gaps online.'
+                    : 'Documenter le patrimoine matériel et immatériel régional pour combler les fossés linguistiques et documentaires sur le web.'}
                 </p>
               </div>
             </div>
@@ -127,10 +154,12 @@ export const WikimediaSection: React.FC = () => {
             <div className="flex items-center gap-2">
               <CheckCircle className="w-4 h-4 text-emerald-400 shrink-0" />
               <span>
-                La contribution numérique participative est une composante à part entière de mon engagement pour la culture du libre et du partage de connaissances.
+                {isEn
+                  ? 'Collaborative digital contribution is a cornerstone of my dedication to open-source culture and knowledge sharing.'
+                  : "La contribution numérique participative est une composante à part entière de mon engagement pour la culture du libre et du partage de connaissances."}
               </span>
             </div>
-            <span className="font-mono text-slate-500">Licences Creative Commons (CC-BY-SA)</span>
+            <span className="font-mono text-slate-500">{isEn ? 'Creative Commons Licenses (CC-BY-SA)' : 'Licences Creative Commons (CC-BY-SA)'}</span>
           </div>
         </ScrollReveal>
 

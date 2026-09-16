@@ -1,11 +1,16 @@
 import React from 'react';
 import { GraduationCap, Calendar, Award } from 'lucide-react';
 import { ACADEMIC_CURRICULUM } from '../data/portfolioData';
+import { ACADEMIC_CURRICULUM_EN } from '../data/portfolioDataEn';
 import { ScrollReveal } from './ScrollReveal';
 import { usePortfolio } from '../context/PortfolioContext';
+import { useLanguage } from '../context/LanguageContext';
 
 export const AcademicCurriculum: React.FC = () => {
   const { data, isCustom } = usePortfolio();
+  const { isEn, t } = useLanguage();
+
+  const curriculumList = isEn ? ACADEMIC_CURRICULUM_EN : ACADEMIC_CURRICULUM;
 
   return (
     <section id="cursus" className="py-16 sm:py-20 bg-slate-50 border-b border-slate-200">
@@ -15,13 +20,15 @@ export const AcademicCurriculum: React.FC = () => {
           <div className="max-w-3xl mb-10">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-blue-100 text-blue-800 text-xs font-semibold uppercase tracking-wider mb-2">
               <GraduationCap className="w-3.5 h-3.5" />
-              Parcours scolaire & professionnel
+              {t('curriculum.badge')}
             </div>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 font-heading tracking-tight">
-              Cursus académique
+              {t('curriculum.title')}
             </h2>
             <p className="text-slate-600 mt-2 text-sm sm:text-base">
-              Chronologie des études et des formations certifiantes.
+              {isEn
+                ? 'Chronology of formal studies and recognized educational programs.'
+                : 'Chronologie des études et des formations certifiantes.'}
             </p>
             <div className="w-16 h-1 bg-blue-600 rounded-full mt-3"></div>
           </div>
@@ -32,8 +39,14 @@ export const AcademicCurriculum: React.FC = () => {
           {isCustom && data.education.length === 0 ? (
             <div className="p-8 text-center bg-white border border-slate-200 rounded-2xl">
               <GraduationCap className="w-8 h-8 text-slate-400 mx-auto mb-2" />
-              <p className="text-sm font-semibold text-slate-700">Aucun cursus académique enregistré pour le moment</p>
-              <p className="text-xs text-slate-500 mt-1">Ajoutez vos diplômes ou études dans l'éditeur de portfolio.</p>
+              <p className="text-sm font-semibold text-slate-700">
+                {isEn ? 'No education records added yet' : 'Aucun cursus académique enregistré pour le moment'}
+              </p>
+              <p className="text-xs text-slate-500 mt-1">
+                {isEn
+                  ? 'Add your degrees or education in the portfolio builder.'
+                  : "Ajoutez vos diplômes ou études dans l'éditeur de portfolio."}
+              </p>
             </div>
           ) : isCustom ? (
             data.education.map((item, index) => (
@@ -71,7 +84,7 @@ export const AcademicCurriculum: React.FC = () => {
               </ScrollReveal>
             ))
           ) : (
-            ACADEMIC_CURRICULUM.map((item, index) => {
+            curriculumList.map((item, index) => {
               const isBehanzin = item.id === 'cursus-behanzin';
               return (
                 <ScrollReveal
@@ -86,12 +99,12 @@ export const AcademicCurriculum: React.FC = () => {
                           {isBehanzin ? (
                             <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">
                               <Award className="w-3 h-3 text-emerald-600" />
-                              Diplôme d'État obtenu
+                              {isEn ? 'State Diploma Awarded' : "Diplôme d'État obtenu"}
                             </span>
                           ) : (
                             <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-100 text-blue-800 border border-blue-200">
                               <GraduationCap className="w-3 h-3 text-blue-600" />
-                              Enseignement Technique & Professionnel
+                              {isEn ? 'Technical & Vocational Education' : 'Enseignement Technique & Professionnel'}
                             </span>
                           )}
                         </div>

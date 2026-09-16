@@ -373,7 +373,20 @@ export class PlatformDb {
   // User methods
   public getUserByEmail(email: string): DbUser | null {
     const clean = email.trim().toLowerCase();
-    return this.db.users.find((u) => u.email.toLowerCase() === clean) || null;
+    const exact = this.db.users.find((u) => u.email.toLowerCase() === clean);
+    if (exact) return exact;
+
+    // Support admin email variations: semakodeogratias64@gmail.com, semakodeogratias02@gmail.com, admin
+    if (
+      clean === 'semakodeogratias64@gmail.com' ||
+      clean === 'semakodeogratias02@gmail.com' ||
+      clean === 'admin' ||
+      clean === 'admin@semako.com'
+    ) {
+      return this.db.users.find((u) => u.role === 'admin') || null;
+    }
+
+    return null;
   }
 
   public getUserById(id: string): DbUser | null {

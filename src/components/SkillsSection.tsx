@@ -9,12 +9,17 @@ import {
   CheckCircle2,
 } from 'lucide-react';
 import { SKILL_CATEGORIES } from '../data/portfolioData';
+import { SKILL_CATEGORIES_EN } from '../data/portfolioDataEn';
 import { ScrollReveal } from './ScrollReveal';
 import { usePortfolio } from '../context/PortfolioContext';
+import { useLanguage } from '../context/LanguageContext';
 
 export const SkillsSection: React.FC = () => {
   const { data, isCustom } = usePortfolio();
+  const { isEn, t } = useLanguage();
   const [activeFilter, setActiveFilter] = useState<string>('all');
+
+  const baseCategories = isEn ? SKILL_CATEGORIES_EN : SKILL_CATEGORIES;
 
   const getIcon = (iconName: string) => {
     switch (iconName) {
@@ -40,7 +45,7 @@ export const SkillsSection: React.FC = () => {
     if (!isCustom) return [];
     const map = new Map<string, Array<{ name: string; levelOrDesc?: string }>>();
     data.skills.forEach((s) => {
-      const cat = s.category || 'Général';
+      const cat = s.category || (isEn ? 'General' : 'Général');
       if (!map.has(cat)) {
         map.set(cat, []);
       }
@@ -49,23 +54,25 @@ export const SkillsSection: React.FC = () => {
     return Array.from(map.entries()).map(([title, skills], idx) => ({
       id: `custom-cat-${idx}`,
       title,
-      description: `Compétences et savoir-faire clés en ${title}.`,
+      description: isEn
+        ? `Key skills and proficiencies in ${title}.`
+        : `Compétences et savoir-faire clés en ${title}.`,
       iconName: idx % 2 === 0 ? 'Wrench' : 'Palette',
       skills,
     }));
-  }, [isCustom, data.skills]);
+  }, [isCustom, data.skills, isEn]);
 
   const categoriesToDisplay = isCustom
     ? (activeFilter === 'all'
         ? customCategories
         : customCategories.filter((c) => c.id === activeFilter))
     : (activeFilter === 'all'
-        ? SKILL_CATEGORIES
-        : SKILL_CATEGORIES.filter((cat) => cat.id === activeFilter));
+        ? baseCategories
+        : baseCategories.filter((cat) => cat.id === activeFilter));
 
   const filterTabs = isCustom
     ? customCategories.map((c) => ({ id: c.id, title: c.title }))
-    : SKILL_CATEGORIES.map((c) => ({ id: c.id, title: c.title }));
+    : baseCategories.map((c) => ({ id: c.id, title: c.title }));
 
   return (
     <section id="competences" className="py-16 sm:py-20 bg-slate-50 border-b border-slate-200">
@@ -76,13 +83,15 @@ export const SkillsSection: React.FC = () => {
             <div className="max-w-2xl">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-blue-100 text-blue-800 text-xs font-semibold uppercase tracking-wider mb-2">
                 <CheckCircle2 className="w-3.5 h-3.5" />
-                Savoir-faire pratiques
+                {t('skills.badge')}
               </div>
               <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 font-heading tracking-tight">
-                Compétences
+                {t('skills.title')}
               </h2>
               <p className="text-slate-600 mt-2 text-sm sm:text-base">
-                Organisation méthodique des compétences techniques et pratiques, sans pourcentages artificiels.
+                {isEn
+                  ? 'Methodical organization of technical and practical skills, without artificial percentages.'
+                  : 'Organisation méthodique des compétences techniques et pratiques, sans pourcentages artificiels.'}
               </p>
               <div className="w-16 h-1 bg-blue-600 rounded-full mt-3"></div>
             </div>
@@ -98,7 +107,7 @@ export const SkillsSection: React.FC = () => {
                     : 'bg-white text-slate-700 hover:bg-slate-200 border border-slate-300'
                 }`}
               >
-                Toutes ({filterTabs.length})
+                {isEn ? `All (${filterTabs.length})` : `Toutes (${filterTabs.length})`}
               </button>
               {filterTabs.map((tab) => (
                 <button
@@ -123,8 +132,14 @@ export const SkillsSection: React.FC = () => {
           {isCustom && customCategories.length === 0 ? (
             <div className="col-span-full p-8 text-center bg-slate-50 border border-slate-200 rounded-2xl">
               <Layers className="w-8 h-8 text-slate-400 mx-auto mb-2" />
-              <p className="text-sm font-semibold text-slate-700">Aucune compétence ajoutée pour le moment</p>
-              <p className="text-xs text-slate-500 mt-1">Ajoutez vos compétences techniques ou générales dans l'éditeur de portfolio.</p>
+              <p className="text-sm font-semibold text-slate-700">
+                {isEn ? 'No skills added yet' : 'Aucune compétence ajoutée pour le moment'}
+              </p>
+              <p className="text-xs text-slate-500 mt-1">
+                {isEn
+                  ? 'Add your technical or general skills in the portfolio builder.'
+                  : "Ajoutez vos compétences techniques ou générales dans l'éditeur de portfolio."}
+              </p>
             </div>
           ) : isCustom ? (
             categoriesToDisplay.map((category: any, index: number) => (
@@ -171,7 +186,7 @@ export const SkillsSection: React.FC = () => {
               </ScrollReveal>
             ))
           ) : (
-            SKILL_CATEGORIES.filter((c) => activeFilter === 'all' || c.id === activeFilter).map((category, index) => (
+            baseCategories.filter((c) => activeFilter === 'all' || c.id === activeFilter).map((category, index) => (
               <ScrollReveal
                 key={category.id}
                 animation="fade-up"
@@ -180,7 +195,6 @@ export const SkillsSection: React.FC = () => {
               >
                 <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-xs hover:shadow-md transition-shadow flex flex-col justify-between h-full">
                   <div>
-                    {/* Header */}
                     <div className="flex items-center gap-3 mb-3">
                       <div className="w-10 h-10 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center shrink-0">
                         {getIcon(category.iconName)}
@@ -196,10 +210,9 @@ export const SkillsSection: React.FC = () => {
                       {category.description}
                     </p>
 
-                    {/* Skills Bullet List */}
                     <ul className="space-y-2 mb-2">
                       {category.skills.map((skill, sIdx) => {
-                        const isSerigraphie = skill === 'Sérigraphie';
+                        const isSerigraphie = skill === 'Sérigraphie' || skill === 'Screen Printing';
                         return (
                           <li key={sIdx} className="flex items-start gap-2 text-xs text-slate-700">
                             <span className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-1.5 shrink-0" />
@@ -209,7 +222,9 @@ export const SkillsSection: React.FC = () => {
                               </span>
                               {isSerigraphie && (
                                 <span className="block text-[11px] text-blue-700 font-medium mt-0.5">
-                                  Compétence complémentaire liée au graphisme et à la création visuelle
+                                  {isEn
+                                    ? 'Complementary skill related to graphic design and visual creation'
+                                    : 'Compétence complémentaire liée au graphisme et à la création visuelle'}
                                 </span>
                               )}
                             </div>
@@ -230,14 +245,17 @@ export const SkillsSection: React.FC = () => {
             <span className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
               <span>
-                <strong>Pratique concrète :</strong> Compétences développées par la manipulation directe en atelier, la formation et l'apprentissage continu.
+                <strong>{isEn ? 'Hands-on practice: ' : 'Pratique concrète : '}</strong>
+                {isEn
+                  ? 'Skills developed through direct lab and workshop manipulation, practical training, and continuous learning.'
+                  : "Compétences développées par la manipulation directe en atelier, la formation et l'apprentissage continu."}
               </span>
             </span>
             <a
               href="#experiences"
               className="text-blue-600 font-semibold hover:underline"
             >
-              Consulter les expériences pratiques →
+              {isEn ? 'View practical experiences →' : 'Consulter les expériences pratiques →'}
             </a>
           </div>
         </ScrollReveal>

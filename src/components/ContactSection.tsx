@@ -9,22 +9,27 @@ import {
   Clock,
   ShieldCheck,
   AlertCircle,
-  MessageSquare,
   Facebook,
   MessageCircle,
 } from 'lucide-react';
 import { PERSONAL_INFO } from '../data/portfolioData';
 import { ScrollReveal } from './ScrollReveal';
 import { usePortfolio } from '../context/PortfolioContext';
+import { useLanguage } from '../context/LanguageContext';
 
 export const ContactSection: React.FC = () => {
   const { data, isCustom } = usePortfolio();
+  const { isEn, t } = useLanguage();
 
   const currentEmail = isCustom ? (data.identity.email || '') : PERSONAL_INFO.email;
   const currentPhone = isCustom ? (data.identity.phone || '') : PERSONAL_INFO.phone;
-  const currentLocation = isCustom ? (data.identity.location || '') : PERSONAL_INFO.location;
+  const currentLocation = isCustom
+    ? (data.identity.location || '')
+    : (isEn ? 'Porto-Novo, Benin' : PERSONAL_INFO.location);
   const currentName = isCustom ? (data.identity.name || '') : PERSONAL_INFO.name;
-  const currentTitle = isCustom ? (data.identity.mainTitle || '') : PERSONAL_INFO.mainTitle;
+  const currentTitle = isCustom
+    ? (data.identity.mainTitle || '')
+    : (isEn ? 'IT TECHNICIAN & UI/UX DESIGNER' : PERSONAL_INFO.mainTitle);
   const currentBrand = isCustom ? (data.identity.brandName || currentName || 'Mon Portfolio') : PERSONAL_INFO.brandName;
 
   const facebookUrl = isCustom
@@ -58,29 +63,31 @@ export const ContactSection: React.FC = () => {
 
     if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
       setFormStatus('error');
-      setStatusMessage('Veuillez remplir tous les champs obligatoires.');
+      setStatusMessage(isEn ? 'Please fill in all required fields.' : 'Veuillez remplir tous les champs obligatoires.');
       return;
     }
 
     if (!currentEmail) {
       setFormStatus('error');
-      setStatusMessage("L'adresse e-mail de contact n'est pas encore configurée.");
+      setStatusMessage(isEn ? 'Contact email is not configured yet.' : "L'adresse e-mail de contact n'est pas encore configurée.");
       return;
     }
 
     const mailtoSubject = encodeURIComponent(
       formData.subject.trim()
-        ? `[Contact Portfolio] ${formData.subject}`
-        : `[Contact Portfolio] Message de ${formData.name}`
+        ? `[Portfolio Contact] ${formData.subject}`
+        : `[Portfolio Contact] Message from ${formData.name}`
     );
     const mailtoBody = encodeURIComponent(
-      `Nom: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
+      `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
     );
     const mailtoLink = `mailto:${currentEmail}?subject=${mailtoSubject}&body=${mailtoBody}`;
 
     setFormStatus('success');
     setStatusMessage(
-      'Votre message est prêt. Si votre client mail ne s’ouvre pas automatiquement, utilisez le lien direct ci-dessous.'
+      isEn
+        ? 'Your message is prepared. If your email client does not open automatically, please click below.'
+        : 'Votre message est prêt. Si votre client mail ne s’ouvre pas automatiquement, utilisez le lien direct ci-dessous.'
     );
 
     window.location.href = mailtoLink;
@@ -95,13 +102,15 @@ export const ContactSection: React.FC = () => {
           <div className="max-w-3xl mb-12">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-blue-50 text-blue-700 text-xs font-semibold uppercase tracking-wider mb-3">
               <Mail className="w-3.5 h-3.5" />
-              Entrer en relation
+              {t('contact.badge')}
             </div>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 font-heading tracking-tight">
-              Contact
+              {t('contact.title')}
             </h2>
             <p className="text-slate-600 mt-2 text-sm sm:text-base">
-              Vous avez un besoin d'intervention technique, une question sur mon cursus ou un projet collaboratif ? N'hésitez pas à me joindre directement.
+              {isEn
+                ? 'Have a technical intervention need, questions about my background, or a collaborative venture? Feel free to reach out directly.'
+                : 'Vous avez un besoin d\'intervention technique, une question sur mon cursus ou un projet collaboratif ? N\'hésitez pas à me joindre directement.'}
             </p>
             <div className="w-16 h-1 bg-blue-600 rounded-full mt-4"></div>
           </div>
@@ -115,7 +124,7 @@ export const ContactSection: React.FC = () => {
             {/* Identity Card */}
             <div className="bg-slate-900 text-white rounded-2xl p-6 sm:p-7 shadow-sm border border-slate-800">
               <span className="text-xs uppercase font-semibold text-blue-400 tracking-wider block mb-1">
-                Coordonnées directes
+                {isEn ? 'Direct Contact Details' : 'Coordonnées directes'}
               </span>
               <h3 className="text-xl font-bold font-heading text-white">
                 {currentName}
@@ -124,7 +133,7 @@ export const ContactSection: React.FC = () => {
                 {currentTitle}
               </p>
               <p className="text-xs text-slate-300 mt-1">
-                Identité numérique : <span className="font-semibold text-white">{currentBrand}</span>
+                {isEn ? 'Digital identity: ' : 'Identité numérique : '}<span className="font-semibold text-white">{currentBrand}</span>
               </p>
 
               <div className="mt-6 space-y-4">
@@ -136,7 +145,7 @@ export const ContactSection: React.FC = () => {
                       <Mail className="w-4 h-4" />
                     </div>
                     <div className="min-w-0">
-                      <span className="text-[11px] text-slate-400 block">Adresse e-mail :</span>
+                      <span className="text-[11px] text-slate-400 block">{isEn ? 'Email address:' : 'Adresse e-mail :'}</span>
                       {currentEmail ? (
                         <a
                           href={`mailto:${currentEmail}`}
@@ -146,7 +155,7 @@ export const ContactSection: React.FC = () => {
                         </a>
                       ) : (
                         <span className="text-xs sm:text-sm text-slate-400 italic block">
-                          Non renseignée
+                          {isEn ? 'Not specified' : 'Non renseignée'}
                         </span>
                       )}
                     </div>
@@ -156,7 +165,7 @@ export const ContactSection: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => handleCopy(currentEmail, 'email')}
-                      title="Copier l'adresse e-mail"
+                      title={isEn ? 'Copy email' : "Copier l'adresse e-mail"}
                       className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-700 transition-colors shrink-0 cursor-pointer"
                     >
                       {copiedItem === 'email' ? (
@@ -175,7 +184,7 @@ export const ContactSection: React.FC = () => {
                       <Phone className="w-4 h-4" />
                     </div>
                     <div className="min-w-0">
-                      <span className="text-[11px] text-slate-400 block">Téléphone / WhatsApp :</span>
+                      <span className="text-[11px] text-slate-400 block">{isEn ? 'Phone / WhatsApp:' : 'Téléphone / WhatsApp :'}</span>
                       {currentPhone ? (
                         <a
                           href={`tel:${currentPhone.replace(/\s+/g, '')}`}
@@ -185,7 +194,7 @@ export const ContactSection: React.FC = () => {
                         </a>
                       ) : (
                         <span className="text-xs sm:text-sm text-slate-400 italic block">
-                          Non renseigné
+                          {isEn ? 'Not specified' : 'Non renseigné'}
                         </span>
                       )}
                     </div>
@@ -195,7 +204,7 @@ export const ContactSection: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => handleCopy(currentPhone, 'phone')}
-                      title="Copier le numéro"
+                      title={isEn ? 'Copy phone' : 'Copier le numéro'}
                       className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-700 transition-colors shrink-0 cursor-pointer"
                     >
                       {copiedItem === 'phone' ? (
@@ -213,9 +222,9 @@ export const ContactSection: React.FC = () => {
                     <MapPin className="w-4 h-4" />
                   </div>
                   <div>
-                    <span className="text-[11px] text-slate-400 block">Localisation :</span>
+                    <span className="text-[11px] text-slate-400 block">{isEn ? 'Location:' : 'Localisation :'}</span>
                     <span className="text-xs sm:text-sm font-semibold text-white">
-                      {currentLocation || 'Non renseignée'}
+                      {currentLocation || (isEn ? 'Not specified' : 'Non renseignée')}
                     </span>
                   </div>
                 </div>
@@ -224,7 +233,7 @@ export const ContactSection: React.FC = () => {
                 {(facebookUrl || whatsappUrl) && (
                   <div className="pt-2 border-t border-slate-700/80">
                     <span className="text-[11px] text-slate-400 block mb-2 font-medium">
-                      Réseaux sociaux & Messagerie directe :
+                      {isEn ? 'Social Networks & Direct Chat:' : 'Réseaux sociaux & Messagerie directe :'}
                     </span>
                     <div className="grid grid-cols-2 gap-2.5">
                       {facebookUrl && (
@@ -233,7 +242,7 @@ export const ContactSection: React.FC = () => {
                           target="_blank"
                           rel="noopener noreferrer"
                           id="contact-link-facebook"
-                          title="Ouvrir ma page Facebook (dans un nouvel onglet)"
+                          title="Facebook"
                           className="p-3 rounded-xl bg-slate-800/90 hover:bg-slate-750 border border-slate-700 hover:border-blue-500/60 flex items-center gap-2.5 text-slate-200 hover:text-white transition-all group cursor-pointer shadow-xs"
                         >
                           <div className="w-8 h-8 rounded-lg bg-blue-600/20 text-blue-400 group-hover:bg-blue-600 group-hover:text-white flex items-center justify-center transition-colors shrink-0">
@@ -241,7 +250,7 @@ export const ContactSection: React.FC = () => {
                           </div>
                           <div className="min-w-0">
                             <span className="text-xs font-semibold block truncate">Facebook</span>
-                            <span className="text-[10px] text-slate-400 group-hover:text-blue-300 block truncate">Profil direct</span>
+                            <span className="text-[10px] text-slate-400 group-hover:text-blue-300 block truncate">{isEn ? 'Direct Profile' : 'Profil direct'}</span>
                           </div>
                         </a>
                       )}
@@ -252,7 +261,7 @@ export const ContactSection: React.FC = () => {
                           target="_blank"
                           rel="noopener noreferrer"
                           id="contact-link-whatsapp"
-                          title="Ouvrir directement mon lien WhatsApp"
+                          title="WhatsApp"
                           className="p-3 rounded-xl bg-slate-800/90 hover:bg-slate-750 border border-slate-700 hover:border-emerald-500/60 flex items-center gap-2.5 text-slate-200 hover:text-white transition-all group cursor-pointer shadow-xs"
                         >
                           <div className="w-8 h-8 rounded-lg bg-emerald-600/20 text-emerald-400 group-hover:bg-emerald-600 group-hover:text-white flex items-center justify-center transition-colors shrink-0">
@@ -260,7 +269,7 @@ export const ContactSection: React.FC = () => {
                           </div>
                           <div className="min-w-0">
                             <span className="text-xs font-semibold block truncate">WhatsApp</span>
-                            <span className="text-[10px] text-slate-400 group-hover:text-emerald-300 block truncate">Message direct</span>
+                            <span className="text-[10px] text-slate-400 group-hover:text-emerald-300 block truncate">{isEn ? 'Direct Message' : 'Message direct'}</span>
                           </div>
                         </a>
                       )}
@@ -271,7 +280,11 @@ export const ContactSection: React.FC = () => {
 
               <div className="mt-6 pt-5 border-t border-slate-800 flex items-center gap-2 text-xs text-slate-400">
                 <Clock className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>Réponse attentive assurée sous 24 à 48 heures.</span>
+                <span>
+                  {isEn
+                    ? 'Attentive response guaranteed within 24 to 48 hours.'
+                    : 'Réponse attentive assurée sous 24 à 48 heures.'}
+                </span>
               </div>
             </div>
 
@@ -279,11 +292,17 @@ export const ContactSection: React.FC = () => {
             <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-600 flex items-start gap-3">
               <ShieldCheck className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
               <div>
-                <strong className="text-slate-900 block mb-0.5">Disponibilité pour échanges professionnels</strong>
+                <strong className="text-slate-900 block mb-0.5">
+                  {isEn ? 'Availability for Professional Projects' : 'Disponibilité pour échanges professionnels'}
+                </strong>
                 <p>
                   {isCustom
-                    ? 'Prêt à étudier toute proposition de stage, mission professionnelle ou opportunité de collaboration.'
-                    : 'Prêt à étudier toute proposition de stage, mission technique, intervention de maintenance informatique ou projet de design graphique.'}
+                    ? (isEn
+                        ? 'Available to discuss internships, freelance missions, or professional collaboration.'
+                        : 'Prêt à étudier toute proposition de stage, mission professionnelle ou opportunité de collaboration.')
+                    : (isEn
+                        ? 'Available for internships, technical service, computer hardware maintenance, and graphic design missions.'
+                        : 'Prêt à étudier toute proposition de stage, mission technique, intervention de maintenance informatique ou projet de design graphique.')}
                 </p>
               </div>
             </div>
@@ -293,10 +312,12 @@ export const ContactSection: React.FC = () => {
           <ScrollReveal animation="fade-right" delay={150} className="lg:col-span-7">
             <div className="bg-slate-50 rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-xs">
               <h3 className="text-lg font-bold text-slate-900 font-heading mb-1">
-                Envoyer un message direct
+                {isEn ? 'Send a Direct Message' : 'Envoyer un message direct'}
               </h3>
               <p className="text-xs text-slate-500 mb-6">
-                Remplissez les informations ci-dessous. Le message sera préparé avec votre client de messagerie habituel.
+                {isEn
+                  ? 'Fill in the fields below. Your message will be formatted and prepared with your default email client.'
+                  : 'Remplissez les informations ci-dessous. Le message sera préparé avec votre client de messagerie habituel.'}
               </p>
 
               {formStatus === 'error' && (
@@ -317,12 +338,12 @@ export const ContactSection: React.FC = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-semibold text-slate-700 mb-1.5">
-                      Nom complet <span className="text-red-500">*</span>
+                      {isEn ? 'Full Name' : 'Nom complet'} <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="text"
                       required
-                      placeholder="Votre nom"
+                      placeholder={isEn ? 'Your name' : 'Votre nom'}
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-300 text-xs sm:text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -331,12 +352,12 @@ export const ContactSection: React.FC = () => {
 
                   <div>
                     <label className="block text-xs font-semibold text-slate-700 mb-1.5">
-                      Adresse e-mail <span className="text-red-500">*</span>
+                      {isEn ? 'Email Address' : 'Adresse e-mail'} <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="email"
                       required
-                      placeholder="nom@exemple.com"
+                      placeholder="name@example.com"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-300 text-xs sm:text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -346,11 +367,11 @@ export const ContactSection: React.FC = () => {
 
                 <div>
                   <label className="block text-xs font-semibold text-slate-700 mb-1.5">
-                    Objet de votre prise de contact
+                    {isEn ? 'Subject of your message' : 'Objet de votre prise de contact'}
                   </label>
                   <input
                     type="text"
-                    placeholder="Proposition d'intervention, stage, projet graphique..."
+                    placeholder={isEn ? 'Technical service, internship, design inquiry...' : "Proposition d'intervention, stage, projet graphique..."}
                     value={formData.subject}
                     onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                     className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-300 text-xs sm:text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -359,12 +380,12 @@ export const ContactSection: React.FC = () => {
 
                 <div>
                   <label className="block text-xs font-semibold text-slate-700 mb-1.5">
-                    Votre message <span className="text-red-500">*</span>
+                    {isEn ? 'Your Message' : 'Votre message'} <span className="text-red-500">*</span>
                   </label>
                   <textarea
                     rows={4}
                     required
-                    placeholder="Détaillez ici votre besoin ou votre message..."
+                    placeholder={isEn ? 'Describe your project or inquiry in detail...' : 'Détaillez ici votre besoin ou votre message...'}
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-300 text-xs sm:text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-y"
@@ -376,7 +397,7 @@ export const ContactSection: React.FC = () => {
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold transition-colors shadow-xs cursor-pointer"
                 >
                   <Send className="w-4 h-4" />
-                  <span>Envoyer le message</span>
+                  <span>{isEn ? 'Send Message' : 'Envoyer le message'}</span>
                 </button>
               </form>
             </div>
@@ -386,3 +407,4 @@ export const ContactSection: React.FC = () => {
     </section>
   );
 };
+

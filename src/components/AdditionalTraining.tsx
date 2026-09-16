@@ -1,11 +1,16 @@
 import React from 'react';
-import { BookMarked, Clock, CheckCircle2, Wrench, Smartphone, Palette, Printer, Award } from 'lucide-react';
+import { BookMarked, Clock, CheckCircle2, Wrench, Smartphone, Palette, Printer } from 'lucide-react';
 import { ADDITIONAL_TRAINING } from '../data/portfolioData';
+import { ADDITIONAL_TRAINING_EN } from '../data/portfolioDataEn';
 import { ScrollReveal } from './ScrollReveal';
 import { usePortfolio } from '../context/PortfolioContext';
+import { useLanguage } from '../context/LanguageContext';
 
 export const AdditionalTraining: React.FC = () => {
   const { data, isCustom } = usePortfolio();
+  const { isEn, t } = useLanguage();
+
+  const trainingList = isEn ? ADDITIONAL_TRAINING_EN : ADDITIONAL_TRAINING;
 
   const getTrainingIcon = (id: string) => {
     switch (id) {
@@ -30,15 +35,19 @@ export const AdditionalTraining: React.FC = () => {
           <div className="max-w-3xl mb-10">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-blue-50 text-blue-700 text-xs font-semibold uppercase tracking-wider mb-2">
               <BookMarked className="w-3.5 h-3.5" />
-              Apprentissages ciblés
+              {t('training.badge')}
             </div>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 font-heading tracking-tight">
-              Formations complémentaires
+              {t('training.title')}
             </h2>
             <p className="text-slate-600 mt-2 text-sm sm:text-base">
               {isCustom
-                ? 'Formations pratiques et ateliers techniques suivis pour approfondir des compétences ciblées.'
-                : 'Formations pratiques réellement suivies pour développer des compétences spécifiques en informatique, téléphonie, graphisme et sérigraphie.'}
+                ? (isEn
+                    ? 'Practical workshops and technical training completed to deepen targeted expertise.'
+                    : 'Formations pratiques et ateliers techniques suivis pour approfondir des compétences ciblées.')
+                : (isEn
+                    ? 'Hands-on training completed to develop specialized skills in IT, phone servicing, graphic design, and screen printing.'
+                    : 'Formations pratiques réellement suivies pour développer des compétences spécifiques en informatique, téléphonie, graphisme et sérigraphie.')}
             </p>
             <div className="w-16 h-1 bg-blue-600 rounded-full mt-3"></div>
           </div>
@@ -49,8 +58,14 @@ export const AdditionalTraining: React.FC = () => {
           {isCustom && data.formations.length === 0 ? (
             <div className="col-span-full p-8 text-center bg-slate-50 border border-slate-200 rounded-2xl">
               <BookMarked className="w-8 h-8 text-slate-400 mx-auto mb-2" />
-              <p className="text-sm font-semibold text-slate-700">Aucune formation complémentaire enregistrée pour le moment</p>
-              <p className="text-xs text-slate-500 mt-1">Ajoutez vos ateliers et formations complémentaires dans l'éditeur de portfolio.</p>
+              <p className="text-sm font-semibold text-slate-700">
+                {isEn ? 'No additional training recorded yet' : 'Aucune formation complémentaire enregistrée pour le moment'}
+              </p>
+              <p className="text-xs text-slate-500 mt-1">
+                {isEn
+                  ? 'Add your technical workshops and training in the portfolio builder.'
+                  : "Ajoutez vos ateliers et formations complémentaires dans l'éditeur de portfolio."}
+              </p>
             </div>
           ) : isCustom ? (
             data.formations.map((item, index) => (
@@ -90,14 +105,18 @@ export const AdditionalTraining: React.FC = () => {
                     )}
                     <div className="flex items-center gap-1.5 text-emerald-700 font-semibold text-[11px]">
                       <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                      <span>{item.hasAttestation ? 'Attestation obtenue' : 'Formation validée'}</span>
+                      <span>
+                        {item.hasAttestation
+                          ? (isEn ? 'Certificate awarded' : 'Attestation obtenue')
+                          : (isEn ? 'Training completed' : 'Formation validée')}
+                      </span>
                     </div>
                   </div>
                 </div>
               </ScrollReveal>
             ))
           ) : (
-            ADDITIONAL_TRAINING.map((item, index) => (
+            trainingList.map((item, index) => (
               <ScrollReveal
                 key={item.id}
                 animation="fade-up"

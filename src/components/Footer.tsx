@@ -1,20 +1,27 @@
 import React from 'react';
-import { ArrowUp, ShieldCheck, Mail, Phone, Facebook, MessageCircle } from 'lucide-react';
+import { ArrowUp, ShieldCheck, Facebook, MessageCircle } from 'lucide-react';
 import { PERSONAL_INFO } from '../data/portfolioData';
 import { ScrollReveal } from './ScrollReveal';
 import { usePortfolio } from '../context/PortfolioContext';
+import { useLanguage } from '../context/LanguageContext';
 
 interface FooterProps {
   onOpenGuide: () => void;
   onOpenPrint: () => void;
+  onNavigate?: (path: string) => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({ onOpenGuide, onOpenPrint }) => {
+export const Footer: React.FC<FooterProps> = ({ onOpenPrint, onNavigate }) => {
   const { data, isCustom } = usePortfolio();
+  const { isEn, t } = useLanguage();
 
   const currentName = isCustom ? (data.identity.name || '') : PERSONAL_INFO.name;
-  const currentTitle = isCustom ? (data.identity.mainTitle || '') : PERSONAL_INFO.mainTitle;
-  const currentLocation = isCustom ? (data.identity.location || '') : PERSONAL_INFO.location;
+  const currentTitle = isCustom
+    ? (data.identity.mainTitle || '')
+    : (isEn ? 'IT TECHNICIAN & UI/UX DESIGNER' : PERSONAL_INFO.mainTitle);
+  const currentLocation = isCustom
+    ? (data.identity.location || '')
+    : (isEn ? 'Porto-Novo, Benin' : PERSONAL_INFO.location);
   const currentEmail = isCustom ? (data.identity.email || '') : PERSONAL_INFO.email;
   const currentPhone = isCustom ? (data.identity.phone || '') : PERSONAL_INFO.phone;
   const currentPhoto = isCustom ? data.identity.photoUrl : PERSONAL_INFO.photoUrl;
@@ -65,8 +72,10 @@ export const Footer: React.FC<FooterProps> = ({ onOpenGuide, onOpenPrint }) => {
 
               <p className="text-xs sm:text-sm text-slate-400 max-w-md leading-relaxed">
                 {isCustom
-                  ? (data.about.heroSummary || 'Portfolio professionnel créé dans le générateur.')
-                  : 'Profil numérique polyvalent : installations et maintenance en informatique, maintenance de smartphones (GSM), création graphique, UI/UX et diffusion de la connaissance libre.'}
+                  ? (data.about.heroSummary || (isEn ? 'Professional portfolio created in builder.' : 'Portfolio professionnel créé dans le générateur.'))
+                  : (isEn
+                      ? 'Multidisciplinary digital profile: computer installations & hardware maintenance, smartphone (GSM) diagnostics, visual design, UI/UX, and open knowledge initiatives.'
+                      : 'Profil numérique polyvalent : installations et maintenance en informatique, maintenance de smartphones (GSM), création graphique, UI/UX et diffusion de la connaissance libre.')}
               </p>
 
               {currentLocation && (
@@ -80,45 +89,45 @@ export const Footer: React.FC<FooterProps> = ({ onOpenGuide, onOpenPrint }) => {
             {/* Quick Links */}
             <div className="md:col-span-4 space-y-3">
               <span className="text-xs font-bold text-slate-300 uppercase tracking-wider block font-heading">
-                Plan du portfolio
+                {isEn ? 'Portfolio Navigation' : 'Plan du portfolio'}
               </span>
               <div className="grid grid-cols-2 gap-2 text-xs">
                 <a href="#accueil" className="text-slate-400 hover:text-white transition-colors">
-                  • Accueil
+                  • {t('nav.home')}
                 </a>
                 <a href="#a-propos" className="text-slate-400 hover:text-white transition-colors">
-                  • À propos
+                  • {t('nav.about')}
                 </a>
                 <a href="#competences" className="text-slate-400 hover:text-white transition-colors">
-                  • Compétences
+                  • {t('nav.skills')}
                 </a>
                 <a href="#experiences" className="text-slate-400 hover:text-white transition-colors">
-                  • Expériences pratiques
+                  • {t('nav.experiences')}
                 </a>
                 <a href="#cursus" className="text-slate-400 hover:text-white transition-colors">
-                  • Cursus académique
+                  • {t('nav.curriculum')}
                 </a>
                 <a href="#formations" className="text-slate-400 hover:text-white transition-colors">
-                  • Formations
+                  • {t('nav.trainings')}
                 </a>
                 <a href="#certifications" className="text-slate-400 hover:text-white transition-colors">
-                  • Certifications
+                  • {t('nav.certifications')}
                 </a>
                 {!isCustom && (
                   <a href="#wikimedia" className="text-slate-400 hover:text-white transition-colors">
-                    • Wikimedia
+                    • {t('nav.wikimedia')}
                   </a>
                 )}
                 {isCustom && data.projects.enabled && (
                   <a href="#projets" className="text-slate-400 hover:text-white transition-colors">
-                    • Projets
+                    • {t('nav.projects')}
                   </a>
                 )}
                 <a href="#outils" className="text-slate-400 hover:text-white transition-colors">
-                  • Outils
+                  • {t('nav.tools')}
                 </a>
                 <a href="#contact" className="text-slate-400 hover:text-white transition-colors">
-                  • Contact
+                  • {t('nav.contact')}
                 </a>
               </div>
             </div>
@@ -126,7 +135,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenGuide, onOpenPrint }) => {
             {/* Contact & Tools Links */}
             <div className="md:col-span-3 space-y-3">
               <span className="text-xs font-bold text-slate-300 uppercase tracking-wider block font-heading">
-                Ressources & Accès
+                {isEn ? 'Resources & Access' : 'Ressources & Accès'}
               </span>
               
               <div className="space-y-2 text-xs">
@@ -135,7 +144,16 @@ export const Footer: React.FC<FooterProps> = ({ onOpenGuide, onOpenPrint }) => {
                   onClick={onOpenPrint}
                   className="block text-left text-blue-400 hover:text-blue-300 transition-colors font-medium cursor-pointer"
                 >
-                  → Fiche CV (Imprimer / PDF)
+                  → {isEn ? 'Resume PDF / Print Sheet' : 'Fiche CV (Imprimer / PDF)'}
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => onNavigate?.('/admin')}
+                  id="footer-admin-link"
+                  className="block text-left text-slate-500 hover:text-slate-300 transition-colors cursor-pointer text-xs"
+                >
+                  🔒 {isEn ? 'Owner Administration Space' : 'Espace Administration (Gestion)'}
                 </button>
 
                 {currentEmail && (
@@ -165,7 +183,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenGuide, onOpenPrint }) => {
                         target="_blank"
                         rel="noopener noreferrer"
                         id="footer-social-facebook"
-                        title="Ouvrir ma page Facebook (dans un nouvel onglet)"
+                        title="Facebook"
                         className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-blue-400 border border-slate-800 hover:border-blue-500/40 transition-colors text-xs"
                       >
                         <Facebook className="w-3.5 h-3.5 text-blue-400" />
@@ -179,7 +197,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenGuide, onOpenPrint }) => {
                         target="_blank"
                         rel="noopener noreferrer"
                         id="footer-social-whatsapp"
-                        title="Ouvrir directement mon lien WhatsApp"
+                        title="WhatsApp"
                         className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-emerald-400 border border-slate-800 hover:border-emerald-500/40 transition-colors text-xs"
                       >
                         <MessageCircle className="w-3.5 h-3.5 text-emerald-400" />
@@ -200,8 +218,8 @@ export const Footer: React.FC<FooterProps> = ({ onOpenGuide, onOpenPrint }) => {
             <ShieldCheck className="w-4 h-4 text-emerald-500 shrink-0" />
             <span>
               {isCustom
-                ? (currentName ? `Portfolio professionnel de ${currentName}` : 'Portfolio professionnel généré')
-                : 'Contenu vérifié et authentique • SEMAKO Déo-Gratias'}
+                ? (currentName ? (isEn ? `Professional Portfolio of ${currentName}` : `Portfolio professionnel de ${currentName}`) : 'Portfolio professionnel généré')
+                : (isEn ? 'Verified & authentic profile content • SEMAKO Déo-Gratias' : 'Contenu vérifié et authentique • SEMAKO Déo-Gratias')}
             </span>
           </div>
 
@@ -211,7 +229,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenGuide, onOpenPrint }) => {
             id="btn-scroll-to-top"
             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-800 transition-colors cursor-pointer"
           >
-            <span>Haut de page</span>
+            <span>{isEn ? 'Back to top' : 'Haut de page'}</span>
             <ArrowUp className="w-3.5 h-3.5" />
           </button>
         </div>

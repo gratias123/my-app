@@ -9,6 +9,16 @@ import {
   CERTIFICATIONS_LIST,
   DIGITAL_TOOLS,
 } from '../data/portfolioData';
+import {
+  PERSONAL_INFO_EN,
+  ABOUT_DATA_EN,
+  ACADEMIC_CURRICULUM_EN,
+  ADDITIONAL_TRAINING_EN,
+  PRACTICAL_EXPERIENCES_EN,
+  SKILL_CATEGORIES_EN,
+  CERTIFICATIONS_LIST_EN,
+  DIGITAL_TOOLS_EN,
+} from '../data/portfolioDataEn';
 
 export const SEMAKO_MODEL_DATA: CustomPortfolioData = {
   identity: {
@@ -77,6 +87,79 @@ export const SEMAKO_MODEL_DATA: CustomPortfolioData = {
     linkedin: '',
     facebook: PERSONAL_INFO.facebookUrl,
     whatsapp: PERSONAL_INFO.whatsappUrl,
+    instagram: '',
+    website: '',
+    other: '',
+  },
+};
+
+export const SEMAKO_MODEL_DATA_EN: CustomPortfolioData = {
+  identity: {
+    name: PERSONAL_INFO_EN.name,
+    brandName: PERSONAL_INFO_EN.brandName,
+    mainTitle: PERSONAL_INFO_EN.mainTitle,
+    photoUrl: PERSONAL_INFO_EN.photoUrl || '',
+    location: PERSONAL_INFO_EN.location,
+    email: PERSONAL_INFO_EN.email,
+    phone: PERSONAL_INFO_EN.phoneFormatted,
+  },
+  about: {
+    tagline: PERSONAL_INFO_EN.tagline,
+    heroSummary: PERSONAL_INFO_EN.heroSummary,
+    presentation: ABOUT_DATA_EN.presentation.join('\n\n'),
+  },
+  skills: SKILL_CATEGORIES_EN.flatMap((cat) =>
+    cat.skills.map((s, idx) => ({
+      id: `skill-${cat.id}-${idx}`,
+      name: s,
+      category: cat.title,
+      levelOrDesc: '',
+    }))
+  ),
+  experiences: PRACTICAL_EXPERIENCES_EN.map((exp) => ({
+    id: exp.id,
+    title: exp.title,
+    organization: exp.badge,
+    location: 'Porto-Novo, Benin',
+    period: '2023 - Present',
+    description: exp.description,
+    missions: exp.activities,
+    tools: exp.tools,
+  })),
+  education: ACADEMIC_CURRICULUM_EN.map((edu) => ({
+    id: edu.id,
+    period: edu.durationOrYear,
+    institution: edu.institution,
+    degree: edu.degreeOrField ? `${edu.degreeOrField} — ${edu.status}` : edu.status,
+    description: edu.description,
+  })),
+  formations: ADDITIONAL_TRAINING_EN.map((tr) => ({
+    id: tr.id,
+    title: tr.title,
+    institution: 'Continuous Training',
+    date: tr.duration || 'Verified Period',
+    duration: tr.duration || '',
+    description: tr.description,
+    hasAttestation: tr.validationStatus === 'Certificate Earned' || tr.validationStatus === 'Course Completed',
+  })),
+  certifications: CERTIFICATIONS_LIST_EN.map((cert) => ({
+    id: cert.id,
+    title: `${cert.title} (${cert.status})`,
+    issuer: cert.domain,
+    date: cert.issuedDate,
+    refNumber: '',
+    verifyUrl: '',
+  })),
+  projects: {
+    enabled: false,
+    items: [],
+  },
+  tools: DIGITAL_TOOLS_EN.map((t) => t.name),
+  links: {
+    github: '',
+    linkedin: '',
+    facebook: PERSONAL_INFO_EN.facebookUrl,
+    whatsapp: PERSONAL_INFO_EN.whatsappUrl,
     instagram: '',
     website: '',
     other: '',

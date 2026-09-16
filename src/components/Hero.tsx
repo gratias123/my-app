@@ -8,6 +8,7 @@ import {
   CheckCircle2,
 } from 'lucide-react';
 import { usePortfolio } from '../context/PortfolioContext';
+import { useLanguage } from '../context/LanguageContext';
 
 interface HeroProps {
   onExploreClick: () => void;
@@ -16,15 +17,16 @@ interface HeroProps {
 
 export const Hero: React.FC<HeroProps> = ({ onExploreClick, onOpenPrint }) => {
   const portfolio = usePortfolio();
+  const { isEn, t } = useLanguage();
   const data = portfolio?.data;
   const isCustom = portfolio?.isCustom ?? false;
   const handleOpenPrint = onOpenPrint || portfolio?.onOpenPrint;
 
   // Extraction dynamique des données du profil (aucun champ en dur)
   const photoUrl = data?.identity?.photoUrl?.trim() || '';
-  const fullName = data?.identity?.name?.trim() || (isCustom ? 'Nom complet' : 'Nom complet');
+  const fullName = data?.identity?.name?.trim() || 'SEMAKO Déo-Gratias';
   const rawTitle =
-    data?.identity?.mainTitle?.trim() || (isCustom ? 'Titre professionnel' : '');
+    data?.identity?.mainTitle?.trim() || (isCustom ? (isEn ? 'Professional Title' : 'Titre professionnel') : (isEn ? 'IT TECHNICIAN & UI/UX DESIGNER' : 'TECHNICIEN INFORMATIQUE & UI/UX DESIGNER'));
   // Assure un titre professionnel sans mention « CONFIRMÉ » et avec « UI/UX DESIGNER »
   const professionalTitle = rawTitle
     ? rawTitle
@@ -35,7 +37,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick, onOpenPrint }) => {
   const shortBio =
     data?.about?.heroSummary?.trim() ||
     data?.about?.tagline?.trim() ||
-    (isCustom ? 'Présentation de votre parcours et de vos objectifs professionnels...' : '');
+    (isCustom ? (isEn ? 'Overview of your journey and career objectives...' : 'Présentation de votre parcours et de vos objectifs professionnels...') : '');
   const email = data?.identity?.email?.trim() || '';
   const phone = data?.identity?.phone?.trim() || '';
   const location = data?.identity?.location?.trim() || '';
@@ -124,7 +126,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick, onOpenPrint }) => {
                   {fullName}
                 </h1>
 
-                {/* 2. Titre professionnel - TECHNICIEN INFORMATIQUE & UI/UX DESIGNER (sans CONFIRMÉ) */}
+                {/* 2. Titre professionnel */}
                 {professionalTitle && (
                   <p
                     id="hero-profile-title"
@@ -134,7 +136,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick, onOpenPrint }) => {
                   </p>
                 )}
 
-                {/* 3. Présentation - Forme 2 lignes équilibrées sur desktop sans saut forcé */}
+                {/* 3. Présentation */}
                 {shortBio && (
                   <p
                     id="hero-profile-bio"
@@ -144,7 +146,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick, onOpenPrint }) => {
                   </p>
                 )}
 
-                {/* 4. Coordonnées - Hauteur compacte, espaces verticaux optimisés, lisibilité parfaite */}
+                {/* 4. Coordonnées */}
                 <div className="w-full max-w-full mt-4 sm:mt-4.5 box-border">
                   <div
                     id="hero-contact-card"
@@ -152,11 +154,11 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick, onOpenPrint }) => {
                   >
                     <div className="flex items-center justify-between pb-2 border-b border-slate-700/70">
                       <span className="text-[11px] md:text-[11.5px] font-bold uppercase tracking-wider text-slate-400 font-heading">
-                        Coordonnées
+                        {isEn ? 'Contact Information' : 'Coordonnées'}
                       </span>
                       <span
                         className="inline-block w-2 h-2 rounded-full bg-emerald-400"
-                        title="Coordonnées vérifiées"
+                        title={isEn ? 'Verified Contact Info' : 'Coordonnées vérifiées'}
                       />
                     </div>
 
@@ -168,7 +170,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick, onOpenPrint }) => {
                         </div>
                         <div className="min-w-0 flex-1">
                           <span className="block text-[10px] md:text-[10.5px] font-semibold text-slate-400 uppercase tracking-wider leading-none">
-                            Email
+                            {isEn ? 'Email' : 'Email'}
                           </span>
                           {email ? (
                             <a
@@ -180,7 +182,9 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick, onOpenPrint }) => {
                               {email}
                             </a>
                           ) : (
-                            <span className="text-[13.5px] text-slate-500 italic">Non renseigné</span>
+                            <span className="text-[13.5px] text-slate-500 italic">
+                              {isEn ? 'Not specified' : 'Non renseigné'}
+                            </span>
                           )}
                         </div>
                       </div>
@@ -192,7 +196,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick, onOpenPrint }) => {
                         </div>
                         <div className="min-w-0 flex-1">
                           <span className="block text-[10px] md:text-[10.5px] font-semibold text-slate-400 uppercase tracking-wider leading-none">
-                            Téléphone
+                            {isEn ? 'Phone' : 'Téléphone'}
                           </span>
                           {phone ? (
                             <a
@@ -204,7 +208,9 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick, onOpenPrint }) => {
                               {phone}
                             </a>
                           ) : (
-                            <span className="text-[13.5px] text-slate-500 italic">Non renseigné</span>
+                            <span className="text-[13.5px] text-slate-500 italic">
+                              {isEn ? 'Not specified' : 'Non renseigné'}
+                            </span>
                           )}
                         </div>
                       </div>
@@ -216,13 +222,13 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick, onOpenPrint }) => {
                         </div>
                         <div className="min-w-0 flex-1">
                           <span className="block text-[10px] md:text-[10.5px] font-semibold text-slate-400 uppercase tracking-wider leading-none">
-                            Localisation
+                            {isEn ? 'Location' : 'Localisation'}
                           </span>
                           <span
                             id="hero-contact-location"
                             className="text-[13.5px] lg:text-[14px] font-medium text-slate-200 leading-snug"
                           >
-                            {location || 'Non renseignée'}
+                            {location || (isEn ? 'Not specified' : 'Non renseignée')}
                           </span>
                         </div>
                       </div>
@@ -248,7 +254,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick, onOpenPrint }) => {
                 id="btn-hero-explore"
                 className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-semibold text-sm transition-all shadow-md shadow-blue-600/20 hover:shadow-lg focus:ring-2 focus:ring-blue-400 focus:outline-none cursor-pointer w-full sm:w-auto"
               >
-                <span>Voir mon parcours</span>
+                <span>{t('hero.exploreJourney')}</span>
                 <ArrowDown className="w-4 h-4 animate-bounce" />
               </button>
 
@@ -261,7 +267,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick, onOpenPrint }) => {
                   className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-slate-800 hover:bg-slate-750 active:bg-slate-700 text-slate-200 hover:text-white font-semibold text-sm transition-colors border border-slate-700 hover:border-slate-600 focus:ring-2 focus:ring-slate-500 focus:outline-none w-full sm:w-auto cursor-pointer shadow-xs"
                 >
                   <FileText className="w-4 h-4 text-slate-300" />
-                  <span>Fiche CV</span>
+                  <span>{t('nav.resume')}</span>
                 </button>
               )}
 
@@ -272,7 +278,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick, onOpenPrint }) => {
                 className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-slate-800 hover:bg-slate-750 active:bg-slate-700 text-slate-200 hover:text-white font-semibold text-sm transition-colors border border-slate-700 hover:border-slate-600 focus:ring-2 focus:ring-slate-500 focus:outline-none w-full sm:w-auto cursor-pointer shadow-xs"
               >
                 <Mail className="w-4 h-4 text-blue-400" />
-                <span>Me contacter</span>
+                <span>{t('nav.contact')}</span>
               </a>
             </div>
 
@@ -281,8 +287,12 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick, onOpenPrint }) => {
               <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
               <span>
                 {location
-                  ? `Disponible pour opportunités professionnelles & missions à ${location}.`
-                  : 'Disponible pour opportunités professionnelles & missions.'}
+                  ? (isEn
+                      ? `Available for technical assignments & professional projects in ${location}.`
+                      : `Disponible pour opportunités professionnelles & missions à ${location}.`)
+                  : (isEn
+                      ? 'Available for technical assignments & professional opportunities.'
+                      : 'Disponible pour opportunités professionnelles & missions.')}
               </span>
             </div>
           </div>

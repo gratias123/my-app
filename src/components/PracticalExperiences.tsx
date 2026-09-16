@@ -7,35 +7,38 @@ import {
   Palette,
   Layout,
   Globe,
-  ArrowRight,
   ShieldCheck,
-  Building,
-  MapPin,
-  Calendar,
 } from 'lucide-react';
 import { PRACTICAL_EXPERIENCES } from '../data/portfolioData';
+import { PRACTICAL_EXPERIENCES_EN } from '../data/portfolioDataEn';
 import { ScrollReveal } from './ScrollReveal';
 import { usePortfolio } from '../context/PortfolioContext';
+import { useLanguage } from '../context/LanguageContext';
 
 export const PracticalExperiences: React.FC = () => {
   const { data, isCustom } = usePortfolio();
+  const { isEn, t } = useLanguage();
 
   const experiencesList = React.useMemo(() => {
-    if (!isCustom) return PRACTICAL_EXPERIENCES;
+    if (!isCustom) return isEn ? PRACTICAL_EXPERIENCES_EN : PRACTICAL_EXPERIENCES;
     if (data.experiences && data.experiences.length > 0) {
       return data.experiences.map((exp, idx) => ({
         id: exp.id || `custom-exp-${idx}`,
-        title: exp.title || 'Expérience',
-        category: exp.organization || 'Pratique',
-        badge: exp.period || 'Validée',
+        title: exp.title || (isEn ? 'Experience' : 'Expérience'),
+        category: exp.organization || (isEn ? 'Hands-on' : 'Pratique'),
+        badge: exp.period || (isEn ? 'Completed' : 'Validée'),
         description: exp.description || '',
-        activities: exp.missions && exp.missions.length > 0 ? exp.missions : ['Missions pratiques associées'],
-        tools: exp.tools && exp.tools.length > 0 ? exp.tools : ['Outils techniques'],
+        activities: exp.missions && exp.missions.length > 0
+          ? exp.missions
+          : [isEn ? 'Associated practical tasks' : 'Missions pratiques associées'],
+        tools: exp.tools && exp.tools.length > 0
+          ? exp.tools
+          : [isEn ? 'Technical tools' : 'Outils techniques'],
         location: exp.location,
       }));
     }
     return [];
-  }, [isCustom, data.experiences]);
+  }, [isCustom, data.experiences, isEn]);
 
   const [selectedExpId, setSelectedExpId] = useState<string>(experiencesList[0]?.id || 'exp-0');
 
@@ -68,15 +71,19 @@ export const PracticalExperiences: React.FC = () => {
           <div className="max-w-3xl mb-10">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-blue-50 text-blue-700 text-xs font-semibold uppercase tracking-wider mb-2">
               <Briefcase className="w-3.5 h-3.5" />
-              Pratique réelle & Atelier
+              {t('experiences.badge')}
             </div>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 font-heading tracking-tight">
-              Expériences pratiques
+              {t('experiences.title')}
             </h2>
             <p className="text-slate-600 mt-2 text-sm sm:text-base">
               {isCustom
-                ? 'Présentation des missions, stages et réalisations concrètes menées sur le terrain.'
-                : 'Présentation des domaines d\'application dans lesquels j\'ai réellement pratiqué, sans postes ou entreprises inventés.'}
+                ? (isEn
+                    ? 'Overview of assignments, internships, and hands-on projects completed on the ground.'
+                    : 'Présentation des missions, stages et réalisations concrètes menées sur le terrain.')
+                : (isEn
+                    ? 'Hands-on fields and assignments in which I have actively practiced, without exaggerated claims.'
+                    : 'Présentation des domaines d\'application dans lesquels j\'ai réellement pratiqué, sans postes ou entreprises inventés.')}
             </p>
             <div className="w-16 h-1 bg-blue-600 rounded-full mt-3"></div>
           </div>
@@ -86,15 +93,21 @@ export const PracticalExperiences: React.FC = () => {
         {experiencesList.length === 0 ? (
           <div className="p-8 text-center bg-slate-50 border border-slate-200 rounded-2xl">
             <Briefcase className="w-8 h-8 text-slate-400 mx-auto mb-2" />
-            <p className="text-sm font-semibold text-slate-700">Aucune expérience enregistrée pour le moment</p>
-            <p className="text-xs text-slate-500 mt-1">Ajoutez vos expériences ou projets pratiques dans l'espace de création de portfolio.</p>
+            <p className="text-sm font-semibold text-slate-700">
+              {isEn ? 'No experiences recorded yet' : 'Aucune expérience enregistrée pour le moment'}
+            </p>
+            <p className="text-xs text-slate-500 mt-1">
+              {isEn
+                ? 'Add your practical assignments or projects in the portfolio builder.'
+                : "Ajoutez vos expériences ou projets pratiques dans l'espace de création de portfolio."}
+            </p>
           </div>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             {/* Navigation list on the left */}
             <ScrollReveal animation="fade-left" delay={100} className="lg:col-span-4 space-y-2">
               <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider block px-1 mb-2">
-                Domaines de pratique ({experiencesList.length}) :
+                {isEn ? `Practice Domains (${experiencesList.length}):` : `Domaines de pratique (${experiencesList.length}) :`}
               </span>
 
               {experiencesList.map((exp) => {
@@ -175,7 +188,7 @@ export const PracticalExperiences: React.FC = () => {
                   {/* Practical Activities Breakdown */}
                   <div className="space-y-3 pb-5 border-b border-slate-200">
                     <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 font-heading">
-                      Activités et tâches pratiques réalisées :
+                      {isEn ? 'Practical activities and tasks performed:' : 'Activités et tâches pratiques réalisées :'}
                     </h4>
                     <div className="grid grid-cols-1 gap-2">
                       {activeExp.activities.map((act, aIdx) => (
@@ -193,7 +206,9 @@ export const PracticalExperiences: React.FC = () => {
                   {/* Tools & Environment Used */}
                   <div className="pt-5 flex flex-wrap items-center justify-between gap-3">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <span className="text-xs font-semibold text-slate-500">Outils & environnement :</span>
+                      <span className="text-xs font-semibold text-slate-500">
+                        {isEn ? 'Tools & environment:' : 'Outils & environnement :'}
+                      </span>
                       {activeExp.tools.map((tool, tIdx) => (
                         <span
                           key={tIdx}

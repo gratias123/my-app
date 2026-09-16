@@ -1,11 +1,16 @@
 import React from 'react';
 import { Award, CheckCircle2, Calendar, Shield, ExternalLink, BookmarkCheck } from 'lucide-react';
 import { CERTIFICATIONS_LIST } from '../data/portfolioData';
+import { CERTIFICATIONS_LIST_EN } from '../data/portfolioDataEn';
 import { ScrollReveal } from './ScrollReveal';
 import { usePortfolio } from '../context/PortfolioContext';
+import { useLanguage } from '../context/LanguageContext';
 
 export const CertificationsSection: React.FC = () => {
   const { data, isCustom } = usePortfolio();
+  const { isEn, t } = useLanguage();
+
+  const certList = isEn ? CERTIFICATIONS_LIST_EN : CERTIFICATIONS_LIST;
 
   return (
     <section id="certifications" className="py-20 bg-white border-b border-slate-200">
@@ -16,13 +21,15 @@ export const CertificationsSection: React.FC = () => {
           <div className="max-w-3xl mb-12">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-emerald-50 text-emerald-800 text-xs font-semibold uppercase tracking-wider mb-3">
               <BookmarkCheck className="w-3.5 h-3.5" />
-              Attestations & Validation de connaissances
+              {t('certifications.badge')}
             </div>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 font-heading tracking-tight">
-              Certifications
+              {t('certifications.title')}
             </h2>
             <p className="text-slate-600 mt-2 text-sm sm:text-base">
-              Certificats de réussite officiellement obtenus confirmant l'assimilation de compétences professionnelles.
+              {isEn
+                ? 'Official certificates of completion verifying mastered technical and professional skills.'
+                : 'Certificats de réussite officiellement obtenus confirmant l\'assimilation de compétences professionnelles.'}
             </p>
             <div className="w-16 h-1 bg-emerald-600 rounded-full mt-4"></div>
           </div>
@@ -33,8 +40,14 @@ export const CertificationsSection: React.FC = () => {
           {isCustom && data.certifications.length === 0 ? (
             <div className="col-span-full p-8 text-center bg-slate-50 border border-slate-200 rounded-2xl">
               <BookmarkCheck className="w-8 h-8 text-slate-400 mx-auto mb-2" />
-              <p className="text-sm font-semibold text-slate-700">Aucune certification enregistrée pour le moment</p>
-              <p className="text-xs text-slate-500 mt-1">Ajoutez vos certificats ou attestations professionnelles dans l'éditeur de portfolio.</p>
+              <p className="text-sm font-semibold text-slate-700">
+                {isEn ? 'No certifications recorded yet' : 'Aucune certification enregistrée pour le moment'}
+              </p>
+              <p className="text-xs text-slate-500 mt-1">
+                {isEn
+                  ? 'Add your verified certificates and credentials in the portfolio builder.'
+                  : "Ajoutez vos certificats ou attestations professionnelles dans l'éditeur de portfolio."}
+              </p>
             </div>
           ) : isCustom ? (
             data.certifications.map((cert, index) => (
@@ -49,7 +62,7 @@ export const CertificationsSection: React.FC = () => {
                     <div className="flex items-center justify-between gap-2 mb-4">
                       <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full bg-emerald-100/80 text-emerald-800 border border-emerald-200">
                         <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                        Certifié
+                        {isEn ? 'Certified' : 'Certifié'}
                       </span>
 
                       {cert.date && (
@@ -70,7 +83,7 @@ export const CertificationsSection: React.FC = () => {
 
                     {cert.refNumber && (
                       <p className="text-xs text-slate-500 font-mono mb-2">
-                        Réf : {cert.refNumber}
+                        {isEn ? 'Ref: ' : 'Réf : '}{cert.refNumber}
                       </p>
                     )}
                   </div>
@@ -78,7 +91,7 @@ export const CertificationsSection: React.FC = () => {
                   <div className="pt-4 border-t border-slate-200/80 flex items-center justify-between text-xs text-slate-500">
                     <span className="flex items-center gap-1">
                       <Shield className="w-3.5 h-3.5 text-emerald-600" />
-                      Authenticité confirmée
+                      {isEn ? 'Verified Authenticity' : 'Authenticité confirmée'}
                     </span>
 
                     {cert.verifyUrl && (
@@ -88,7 +101,7 @@ export const CertificationsSection: React.FC = () => {
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-1 font-semibold text-blue-600 hover:text-blue-800 transition-colors"
                       >
-                        <span>Vérifier</span>
+                        <span>{isEn ? 'Verify' : 'Vérifier'}</span>
                         <ExternalLink className="w-3 h-3" />
                       </a>
                     )}
@@ -97,7 +110,7 @@ export const CertificationsSection: React.FC = () => {
               </ScrollReveal>
             ))
           ) : (
-            CERTIFICATIONS_LIST.map((cert, index) => (
+            certList.map((cert, index) => (
               <ScrollReveal
                 key={cert.id}
                 animation="scale"
@@ -135,11 +148,11 @@ export const CertificationsSection: React.FC = () => {
                   <div className="pt-4 border-t border-slate-200/80 flex items-center justify-between text-xs text-slate-500">
                     <span className="flex items-center gap-1">
                       <Shield className="w-3.5 h-3.5 text-emerald-600" />
-                      Authenticité confirmée
+                      {isEn ? 'Verified Authenticity' : 'Authenticité confirmée'}
                     </span>
 
                     <span className="font-semibold text-blue-600">
-                      Reconnue
+                      {isEn ? 'Recognized' : 'Reconnue'}
                     </span>
                   </div>
                 </div>
