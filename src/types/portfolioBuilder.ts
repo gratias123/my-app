@@ -74,11 +74,16 @@ export interface CustomToolItem {
 
 export interface CustomWikimediaData {
   enabled: boolean;
+  username?: string;
+  contributionsUrl?: string;
+  profileUrl?: string;
   title?: string;
   badge?: string;
   subtitle?: string;
-  paragraphs: string[];
-  highlights: Array<{ label: string; desc: string }>;
+  presentation?: string;
+  paragraphs?: string[];
+  highlights?: Array<{ label: string; desc: string }>;
+  showRecentUploads?: boolean;
   links?: Array<{ label: string; url: string }>;
 }
 

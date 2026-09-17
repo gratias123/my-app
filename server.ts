@@ -75,6 +75,127 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', time: new Date().toISOString() });
 });
 
+// Cache for Wikimedia stats (TTL 10 minutes)
+interface WikimediaCacheEntry {
+  data: any;
+  timestamp: number;
+}
+const wikimediaCache = new Map<string, WikimediaCacheEntry>();
+
+// Public Wikimedia Statistics & Contributions API proxy
+app.get('/api/wikimedia/stats', async (req, res) => {
+  const username = String(req.query.username || 'Semako64').trim();
+  if (!username) {
+    res.status(400).json({ success: false, error: 'Nom d’utilisateur requis' });
+    return;
+  }
+
+  const cacheKey = username.toLowerCase();
+  const cached = wikimediaCache.get(cacheKey);
+  const now = Date.now();
+  if (cached && now - cached.timestamp < 10 * 60 * 1000) {
+    res.json(cached.data);
+    return;
+  }
+
+  try {
+    const headers = {
+      'User-Agent': 'PortfolioSemakoDeoGratias/1.0 (semakodeogratias@gmail.com; https://github.com/semako64)',
+    };
+
+    // 1. Fetch user general info (editcount, registration)
+    const userRes = await fetch(
+      `https://commons.wikimedia.org/w/api.php?action=query&list=users&ususers=${encodeURIComponent(
+        username
+      )}&usprop=editcount|registration|groups&format=json`,
+      { headers }
+    );
+    const userData: any = await userRes.json();
+    const userObj = userData?.query?.users?.[0];
+
+    // 2. Fetch upload count (namespace 6 = File:)
+    let uploadsCount: number | undefined = undefined;
+    try {
+      const contribsRes = await fetch(
+        `https://commons.wikimedia.org/w/api.php?action=query&list=usercontribs&ucuser=${encodeURIComponent(
+          username
+        )}&ucnamespace=6&uclimit=500&ucprop=title&format=json`,
+        { headers }
+      );
+      const contribsData: any = await contribsRes.json();
+      const count = contribsData?.query?.usercontribs?.length;
+      if (typeof count === 'number') {
+        uploadsCount = count;
+      }
+    } catch {
+      // optional metric
+    }
+
+    // 3. Fetch recent uploads with thumbnails
+    let recentUploads: Array<{
+      title: string;
+      rawTitle: string;
+      url: string;
+      thumbUrl: string;
+      timestamp: string;
+      size?: number;
+    }> = [];
+
+    try {
+      const imagesRes = await fetch(
+        `https://commons.wikimedia.org/w/api.php?action=query&generator=allimages&gaiuser=${encodeURIComponent(
+          username
+        )}&gaisort=timestamp&gailimit=6&prop=imageinfo&iiprop=timestamp|url|size&iiurlwidth=500&format=json`,
+        { headers }
+      );
+      const imagesData: any = await imagesRes.json();
+      const pages = imagesData?.query?.pages;
+      if (pages) {
+        recentUploads = Object.values(pages)
+          .map((page: any) => {
+            const info = page?.imageinfo?.[0];
+            const cleanTitle = (page?.title || '')
+              .replace(/^File:/i, '')
+              .replace(/\.[a-zA-Z0-9]+$/, '')
+              .replace(/_/g, ' ');
+            return {
+              title: cleanTitle,
+              rawTitle: page?.title || '',
+              url: info?.descriptionurl || `https://commons.wikimedia.org/wiki/${encodeURIComponent(page?.title || '')}`,
+              thumbUrl: info?.thumburl || info?.url || '',
+              timestamp: info?.timestamp || '',
+              size: info?.size || 0,
+            };
+          })
+          .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
+          .slice(0, 6);
+      }
+    } catch {
+      // optional gallery
+    }
+
+    const payload = {
+      success: true,
+      username: userObj?.name || username,
+      userId: userObj?.userid,
+      editCount: typeof userObj?.editcount === 'number' ? userObj.editcount : undefined,
+      uploadsCount: uploadsCount,
+      registrationDate: userObj?.registration || undefined,
+      groups: userObj?.groups || [],
+      recentUploads,
+    };
+
+    wikimediaCache.set(cacheKey, { data: payload, timestamp: now });
+    res.json(payload);
+  } catch (err: any) {
+    res.status(500).json({
+      success: false,
+      error: 'Impossible de contacter l’API Wikimedia',
+      details: err?.message,
+    });
+  }
+});
+
 // Register normal user
 app.post('/api/auth/register', (req, res) => {
   const { fullName, email, password } = req.body;

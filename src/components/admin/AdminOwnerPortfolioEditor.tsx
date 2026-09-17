@@ -311,7 +311,7 @@ export const AdminOwnerPortfolioEditor: React.FC<AdminOwnerPortfolioEditorProps>
           }`}
         >
           <Globe className="w-3.5 h-3.5" />
-          <span>Wikimedia & Libre</span>
+          <span>Wikimedia / Contributions</span>
         </button>
 
         <button

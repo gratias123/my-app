@@ -342,22 +342,26 @@ const DEFAULT_OWNER_PORTFOLIO_DATA = {
   ],
   wikimedia: {
     enabled: true,
-    title: 'Engagement dans la Culture Libre & Wikimedia',
-    badge: 'Culture Libre & Partage',
-    subtitle: 'Participer activement à la diffusion du savoir universel, structurer les données ouvertes et valoriser le patrimoine documentaire africain.',
+    username: 'Semako64',
+    contributionsUrl: 'https://commons.wikimedia.org/wiki/Special:Contributions/Semako64',
+    profileUrl: 'https://commons.wikimedia.org/wiki/User:Semako64',
+    title: 'Wikimedia',
+    badge: 'Culture Libre & Communs',
+    subtitle: 'Contribution & partage de connaissances',
+    presentation:
+      'Contributeur aux projets Wikimedia sous le pseudonyme « Semako64 ». Mon activité comprend notamment des contributions sur Wikimedia Commons.',
+    showRecentUploads: true,
     paragraphs: [
       'L’engagement dans l’univers Wikimedia représente pour moi une passerelle essentielle entre la technique informatique et la responsabilité citoyenne du numérique. Plutôt que de rester simple consommateur passif d’Internet, contribuer permet d’agir concrètement pour la qualité de l’information accessible à tous.',
       'Cette démarche implique une rigueur méthodologique permanente : respect strict de la neutralité de point de vue, vérification scrupuleuse de sources admissibles et indépendantes, et structuration minutieuse des données pour les rendre interopérables et pérennes.',
-      'C’est également une formidable opportunité de valoriser les savoirs locaux, les personnalités, les institutions et les richesses culturelles du Bénin et d’Afrique sur les plateformes les plus consultées au monde.',
     ],
     highlights: [
-      { label: 'Wikipédia', desc: 'Rédaction, relecture et vérification méthodique de sources documentaires vérifiables' },
-      { label: 'Wikidata', desc: 'Alimentation du graphe mondial de données ouvertes et structurées' },
-      { label: 'Culture Libre', desc: 'Partage du savoir sans barrière technique ou commerciale sous licences CC-BY-SA' },
-      { label: 'Valorisation', desc: 'Documentation du patrimoine matériel et immatériel régional sur le web mondial' },
+      { label: 'Wikimedia Commons', desc: 'Import et documentation de photographies et médias libres sous licence CC-BY-SA' },
+      { label: 'Wikipédia & Wikidata', desc: 'Contributions aux données ouvertes et amélioration méthodique des contenus encyclopédiques' },
     ],
     links: [
-      { label: 'Portail Wikimedia', url: 'https://meta.wikimedia.org' },
+      { label: 'Contributions Commons', url: 'https://commons.wikimedia.org/wiki/Special:Contributions/Semako64' },
+      { label: 'Profil Utilisateur', url: 'https://commons.wikimedia.org/wiki/User:Semako64' },
     ],
   },
   languages: [

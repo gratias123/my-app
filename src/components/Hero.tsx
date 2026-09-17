@@ -9,7 +9,6 @@ import {
 } from 'lucide-react';
 import { usePortfolio } from '../context/PortfolioContext';
 import { useLanguage } from '../context/LanguageContext';
-import semakoLogo from '../assets/images/semako_logo_1789639914967.jpg';
 
 interface HeroProps {
   onExploreClick: () => void;
@@ -89,43 +88,26 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick, onOpenPrint }) => {
               {/* Proportions naturelles, bordure discrète, placeholder discret */}
               {/* ------------------------------------------------------------- */}
               <div className="shrink-0 flex flex-col items-start md:items-center justify-start md:pt-1">
-                <div className="relative group">
-                  <div
-                    id="hero-profile-photo-container"
-                    className="w-32 h-36 sm:w-36 sm:h-44 md:w-[200px] md:h-[260px] lg:w-[230px] lg:h-[295px] rounded-2xl overflow-hidden bg-slate-800 border border-slate-700/80 shadow-lg ring-1 ring-slate-700/50 shrink-0"
-                  >
-                    {photoUrl ? (
-                      <img
-                        id="hero-profile-photo"
-                        src={photoUrl}
-                        alt={fullName}
-                        className="w-full h-full object-cover object-top"
-                        referrerPolicy="no-referrer"
-                      />
-                    ) : (
-                      <div
-                        id="hero-profile-placeholder"
-                        className="w-full h-full flex items-center justify-center text-slate-400 font-semibold text-xl sm:text-2xl font-heading bg-gradient-to-br from-slate-800 to-slate-850"
-                      >
-                        {initials}
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Sceau / Emblème du logo officiel SEMAKO Déo-Gratias */}
-                  <div
-                    id="hero-profile-logo-seal"
-                    className="absolute -bottom-2.5 -right-2.5 sm:-bottom-3 sm:-right-3 md:-bottom-3.5 md:-right-3.5 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-xl sm:rounded-2xl bg-slate-900/95 border border-blue-500/40 p-1 sm:p-1.5 shadow-xl shadow-blue-950/60 ring-2 ring-slate-800/80 backdrop-blur-md flex items-center justify-center transition-transform duration-300 hover:scale-105 hover:border-blue-400 cursor-pointer"
-                    title="Logo officiel & Identité de marque SEMAKO Déo-Gratias"
-                  >
+                <div
+                  id="hero-profile-photo-container"
+                  className="w-32 h-36 sm:w-36 sm:h-44 md:w-[200px] md:h-[260px] lg:w-[230px] lg:h-[295px] rounded-2xl overflow-hidden bg-slate-800 border border-slate-700/80 shadow-lg ring-1 ring-slate-700/50 shrink-0"
+                >
+                  {photoUrl ? (
                     <img
-                      id="hero-logo-seal-image"
-                      src={semakoLogo}
-                      alt="Logo SEMAKO Déo-Gratias"
-                      className="w-full h-full object-cover rounded-lg sm:rounded-xl"
+                      id="hero-profile-photo"
+                      src={photoUrl}
+                      alt={fullName}
+                      className="w-full h-full object-cover object-top"
                       referrerPolicy="no-referrer"
                     />
-                  </div>
+                  ) : (
+                    <div
+                      id="hero-profile-placeholder"
+                      className="w-full h-full flex items-center justify-center text-slate-400 font-semibold text-xl sm:text-2xl font-heading bg-gradient-to-br from-slate-800 to-slate-850"
+                    >
+                      {initials}
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -136,24 +118,6 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick, onOpenPrint }) => {
               {/* ------------------------------------------------------------- */}
               <div className="w-full max-w-full min-w-0 flex flex-col justify-start">
                 
-                {/* Badge d'identité visuelle avec le logo officiel */}
-                <div
-                  id="hero-brand-badge"
-                  className="inline-flex items-center gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full bg-slate-800/85 border border-slate-700/80 shadow-xs mb-2.5 sm:mb-3 w-fit backdrop-blur-xs hover:border-blue-500/40 transition-colors"
-                >
-                  <img
-                    id="hero-badge-logo-icon"
-                    src={semakoLogo}
-                    alt="Logo SEMAKO"
-                    className="w-4 h-4 rounded-full object-cover ring-1 ring-blue-400/50"
-                    referrerPolicy="no-referrer"
-                  />
-                  <span className="text-[10.5px] sm:text-[11px] font-bold uppercase tracking-wider text-blue-300 font-heading">
-                    {isEn ? 'Official Visual Identity' : 'Identité Visuelle Officielle'}
-                  </span>
-                  <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
-                </div>
-
                 {/* 1. Nom et prénom - Élément principal, fort et élégant */}
                 <h1
                   id="hero-profile-name"
