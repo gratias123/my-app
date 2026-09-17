@@ -55,12 +55,17 @@ export interface CustomProjectItem {
   id: string;
   name: string;
   description: string;
+  fullDescription?: string;
   role?: string;
   period?: string;
+  category?: string;
   imageUrl?: string;
+  gallery?: string[];
   link?: string;
   tools: string[];
+  context?: string;
   results?: string;
+  featured?: boolean;
 }
 
 export interface CustomToolItem {

@@ -48,6 +48,25 @@ const TRANSLATIONS: Record<Language, Record<string, string>> = {
     'skills.subtitle': 'Aptitudes concrètes acquises en formation technique, en atelier et en projets visuels.',
     'skills.filterAll': 'Toutes les compétences',
 
+    // Projects & Realizations
+    'projects.badge': 'Projets & Réalisations',
+    'projects.title': 'Projets & Réalisations',
+    'projects.subtitle': 'Sélection de projets récents, réalisations techniques et conceptions visuelles.',
+    'projects.viewProject': 'Voir le projet',
+    'projects.viewDetails': 'Voir les détails',
+    'projects.closeModal': 'Fermer',
+    'projects.liveDemo': 'Consulter le projet en ligne',
+    'projects.role': 'Rôle & Mission',
+    'projects.period': 'Période',
+    'projects.tools': 'Technologies & Outils',
+    'projects.results': 'Résultats & Impact concret',
+    'projects.context': 'Contexte & Enjeux',
+    'projects.gallery': 'Galerie du projet',
+    'projects.featured': 'À la une',
+    'projects.allProjects': 'Tous les projets',
+    'projects.noImagePlaceholder': 'Projet documenté',
+    'projects.empty': 'Aucun projet enregistré pour le moment.',
+
     // Practical Experiences
     'exp.badge': 'Pratique réelle & Atelier',
     'exp.title': 'Expériences pratiques',
@@ -171,6 +190,25 @@ const TRANSLATIONS: Record<Language, Record<string, string>> = {
     'skills.title': 'Skills & Areas of Expertise',
     'skills.subtitle': 'Hands-on capabilities developed through technical education, workshop practice, and visual projects.',
     'skills.filterAll': 'All Skills',
+
+    // Projects & Accomplishments
+    'projects.badge': 'Projects & Realizations',
+    'projects.title': 'Projects & Accomplishments',
+    'projects.subtitle': 'Selection of recent projects, technical accomplishments, and visual designs.',
+    'projects.viewProject': 'View Project',
+    'projects.viewDetails': 'View Details',
+    'projects.closeModal': 'Close',
+    'projects.liveDemo': 'Visit Live Project',
+    'projects.role': 'Role & Responsibility',
+    'projects.period': 'Period',
+    'projects.tools': 'Technologies & Tools',
+    'projects.results': 'Results & Tangible Impact',
+    'projects.context': 'Context & Objectives',
+    'projects.gallery': 'Project Gallery',
+    'projects.featured': 'Featured',
+    'projects.allProjects': 'All Projects',
+    'projects.noImagePlaceholder': 'Documented Project',
+    'projects.empty': 'No projects recorded yet.',
 
     // Practical Experiences
     'exp.badge': 'Hands-on Practice & Workshop',

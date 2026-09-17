@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import express, { Request, Response, NextFunction } from 'express';
 import path from 'path';
+import fs from 'fs';
 import { createServer as createViteServer } from 'vite';
 import { platformDb, DbUser, DbSession } from './server/db';
 
@@ -9,6 +10,13 @@ const PORT = 3000;
 
 // Body parser
 app.use(express.json({ limit: '15mb' }));
+
+// Ensure public uploads directory exists and is statically served
+const uploadsDir = path.join(process.cwd(), 'public', 'uploads');
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+}
+app.use('/uploads', express.static(uploadsDir));
 
 // Extend express Request type with session & user
 declare global {
@@ -545,6 +553,50 @@ app.put('/api/admin/my-portfolio', requireAdmin, (req, res) => {
 
   const saved = platformDb.saveUserPortfolio(adminId, data, status || 'published');
   res.json({ success: true, portfolio: saved });
+});
+
+// Upload image endpoint (saves base64 data to public/uploads/ and returns URL)
+app.post('/api/upload', (req, res) => {
+  try {
+    const { image, filename } = req.body;
+    if (!image || typeof image !== 'string') {
+      res.status(400).json({ success: false, error: 'Image requise' });
+      return;
+    }
+
+    // If it's already a URL or path, just return it
+    if (!image.startsWith('data:')) {
+      res.json({ success: true, url: image });
+      return;
+    }
+
+    const matches = image.match(/^data:([A-Za-z0-9-+\/]+);base64,(.+)$/);
+    if (!matches || matches.length !== 3) {
+      res.status(400).json({ success: false, error: 'Format base64 invalide' });
+      return;
+    }
+
+    const mimeType = matches[1];
+    const buffer = Buffer.from(matches[2], 'base64');
+    let ext = 'png';
+    if (mimeType.includes('jpeg') || mimeType.includes('jpg')) ext = 'jpg';
+    else if (mimeType.includes('webp')) ext = 'webp';
+    else if (mimeType.includes('svg')) ext = 'svg';
+    else if (mimeType.includes('gif')) ext = 'gif';
+
+    const safeBaseName = (filename || 'project')
+      .toLowerCase()
+      .replace(/[^a-z0-9]/g, '-')
+      .replace(/-+/g, '-')
+      .substring(0, 30);
+    const uniqueFileName = `${safeBaseName}-${Date.now()}.${ext}`;
+    const filePath = path.join(uploadsDir, uniqueFileName);
+
+    fs.writeFileSync(filePath, buffer);
+    res.json({ success: true, url: `/uploads/${uniqueFileName}` });
+  } catch (err: any) {
+    res.status(500).json({ success: false, error: err.message || 'Échec du téléversement' });
+  }
 });
 
 // ==========================================
