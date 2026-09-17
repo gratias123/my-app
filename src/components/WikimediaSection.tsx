@@ -2,9 +2,39 @@ import React from 'react';
 import { Globe, Database, BookOpen, Share2, CheckCircle } from 'lucide-react';
 import { ScrollReveal } from './ScrollReveal';
 import { useLanguage } from '../context/LanguageContext';
+import { usePortfolio } from '../context/PortfolioContext';
 
 export const WikimediaSection: React.FC = () => {
   const { isEn, t } = useLanguage();
+  const { data } = usePortfolio();
+
+  const wikimedia = data?.wikimedia;
+  if (wikimedia && wikimedia.enabled === false) {
+    return null;
+  }
+
+  const title = wikimedia?.title || t('wikimedia.title');
+  const badge = wikimedia?.badge || t('wikimedia.badge');
+  const subtitle =
+    wikimedia?.subtitle ||
+    (isEn
+      ? 'Actively contributing to encyclopedic open knowledge, structuring open data, and spotlighting local cultural heritage.'
+      : 'Participer activement à la diffusion du savoir encyclopédique, structurer les données ouvertes et valoriser le patrimoine documentaire.');
+
+  const paragraphs =
+    wikimedia?.paragraphs && wikimedia.paragraphs.length > 0
+      ? wikimedia.paragraphs
+      : isEn
+      ? [
+          'Involvement in the Wikimedia movement represents an essential bridge between technical computer skills and civic digital responsibility. Rather than remaining a passive consumer of the Internet, contributing empowers me to take concrete action for the quality of information accessible to everyone.',
+          'This commitment demands constant methodological rigor: strict adherence to neutral point of view, meticulous verification of reliable and independent sources, and precise data modeling to make knowledge interoperable and lasting.',
+          'It also presents an invaluable opportunity to document and highlight local knowledge, prominent figures, institutions, and cultural heritage of Benin and Africa across the most widely consulted platforms in the world.',
+        ]
+      : [
+          "L'engagement dans l'univers Wikimedia représente pour moi une passerelle essentielle entre la technique informatique et la responsabilité citoyenne du numérique. Plutôt que de rester simple consommateur passif d'Internet, contribuer permet d'agir concrètement pour la qualité de l'information accessible à tous.",
+          'Cette démarche implique une rigueur méthodologique permanente : respect strict de la neutralité de point de vue, vérification scrupuleuse de sources admissibles et indépendantes, et structuration minutieuse des données pour les rendre interopérables et pérennes.',
+          "C'est également une formidable opportunité de valoriser les savoirs locaux, les personnalités, les institutions et les richesses culturelles du Bénin et d'Afrique sur les plateformes les plus consultées au monde.",
+        ];
 
   return (
     <section id="wikimedia" className="py-20 bg-slate-900 text-white border-b border-slate-800 relative overflow-hidden">
@@ -25,15 +55,13 @@ export const WikimediaSection: React.FC = () => {
           <div className="max-w-3xl mb-12">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-blue-900/60 text-blue-300 text-xs font-semibold uppercase tracking-wider mb-3 border border-blue-700/50">
               <Globe className="w-3.5 h-3.5 text-blue-400" />
-              {t('wikimedia.badge')}
+              {badge}
             </div>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-white font-heading tracking-tight">
-              {t('wikimedia.title')}
+              {title}
             </h2>
             <p className="text-slate-300 mt-2 text-sm sm:text-base">
-              {isEn
-                ? 'Actively contributing to encyclopedic open knowledge, structuring open data, and spotlighting local cultural heritage.'
-                : 'Participer activement à la diffusion du savoir encyclopédique, structurer les données ouvertes et valoriser le patrimoine documentaire.'}
+              {subtitle}
             </p>
             <div className="w-16 h-1 bg-blue-500 rounded-full mt-4"></div>
           </div>
@@ -45,31 +73,9 @@ export const WikimediaSection: React.FC = () => {
           <ScrollReveal animation="fade-left" delay={120} className="lg:col-span-7">
             <div className="bg-slate-800/80 rounded-2xl p-6 sm:p-8 border border-slate-700 flex flex-col justify-between h-full">
               <div className="space-y-4 text-slate-300 text-sm leading-relaxed">
-                {isEn ? (
-                  <>
-                    <p>
-                      Involvement in the Wikimedia movement represents an essential bridge between technical computer skills and civic digital responsibility. Rather than remaining a passive consumer of the Internet, contributing empowers me to take concrete action for the quality of information accessible to everyone.
-                    </p>
-                    <p>
-                      This commitment demands constant methodological rigor: strict adherence to neutral point of view, meticulous verification of reliable and independent sources, and precise data modeling to make knowledge interoperable and lasting.
-                    </p>
-                    <p>
-                      It also presents an invaluable opportunity to document and highlight local knowledge, prominent figures, institutions, and cultural heritage of Benin and Africa across the most widely consulted platforms in the world.
-                    </p>
-                  </>
-                ) : (
-                  <>
-                    <p>
-                      L'engagement dans l'univers Wikimedia représente pour moi une passerelle essentielle entre la technique informatique et la responsabilité citoyenne du numérique. Plutôt que de rester simple consommateur passif d'Internet, contribuer permet d'agir concrètement pour la qualité de l'information accessible à tous.
-                    </p>
-                    <p>
-                      Cette démarche implique une rigueur méthodologique permanente : respect strict de la neutralité de point de vue, vérification scrupuleuse de sources admissibles et indépendantes, et structuration minutieuse des données pour les rendre interopérables et pérennes.
-                    </p>
-                    <p>
-                      C'est également une formidable opportunité de valoriser les savoirs locaux, les personnalités, les institutions et les richesses culturelles du Bénin et d'Afrique sur les plateformes les plus consultées au monde.
-                    </p>
-                  </>
-                )}
+                {paragraphs.map((p, pIdx) => (
+                  <p key={pIdx}>{p}</p>
+                ))}
               </div>
 
               <div className="mt-6 pt-5 border-t border-slate-700 grid grid-cols-2 gap-4">

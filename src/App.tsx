@@ -7,6 +7,7 @@ import { PracticalExperiences } from './components/PracticalExperiences';
 import { AcademicCurriculum } from './components/AcademicCurriculum';
 import { AdditionalTraining } from './components/AdditionalTraining';
 import { CertificationsSection } from './components/CertificationsSection';
+import { ProjectsSection } from './components/ProjectsSection';
 import { WikimediaSection } from './components/WikimediaSection';
 import { ToolsSection } from './components/ToolsSection';
 import { ContactSection } from './components/ContactSection';
@@ -168,7 +169,7 @@ function AppContent() {
   // 7. Default Home View (/): SEMAKO Déo-Gratias Official Reference Portfolio
   const portfolioContextValue = {
     data: ownerPortfolioData,
-    isCustom: false,
+    isCustom: true,
     onOpenPrint: () => handleOpenPrintResume(ownerPortfolioData),
     onOpenBuilder: handleCreatePortfolioClick,
     onViewOriginalModel: () => navigate('/'),
@@ -178,7 +179,7 @@ function AppContent() {
     <PortfolioProvider value={portfolioContextValue}>
       <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 selection:bg-blue-600 selection:text-white w-full max-w-[100vw] overflow-x-hidden">
         
-        {/* Top Navbar with Fiche CV, Me contacter, and Créer mon portfolio */}
+        {/* Top Navbar with Créer mon portfolio and Fiche CV */}
         <Navbar
           onOpenPrint={() => handleOpenPrintResume(ownerPortfolioData)}
           onNavigate={navigate}
@@ -212,13 +213,16 @@ function AppContent() {
           {/* Section 7: Certifications */}
           <CertificationsSection />
 
-          {/* Section 8: Wikimedia & Communauté */}
+          {/* Section 8: Projets */}
+          <ProjectsSection />
+
+          {/* Section 9: Wikimedia & Communauté */}
           <WikimediaSection />
 
-          {/* Section 9: Outils */}
+          {/* Section 10: Outils */}
           <ToolsSection />
 
-          {/* Section 10: Contact */}
+          {/* Section 11: Contact */}
           <ContactSection />
         </main>
 

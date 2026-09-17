@@ -159,7 +159,9 @@ export const mapCustomDataToResumeSections = (
       ? portfolio.projects.items.filter((p) => isNonEmptyString(p.name))
       : [];
 
-  const validTools = (portfolio.tools || []).filter(isNonEmptyString);
+  const validTools = (portfolio.tools || [])
+    .map((t) => (typeof t === 'string' ? t : t?.name))
+    .filter(isNonEmptyString);
 
   const validLanguages = (portfolio.languages || []).filter((l) =>
     isNonEmptyString(l.name)

@@ -3,6 +3,7 @@ export interface CustomSkillItem {
   name: string;
   category?: string;
   levelOrDesc?: string;
+  tools?: string[];
 }
 
 export interface CustomExperienceItem {
@@ -11,6 +12,7 @@ export interface CustomExperienceItem {
   organization: string;
   location: string;
   period: string;
+  current?: boolean;
   description: string;
   missions: string[];
   tools?: string[];
@@ -21,6 +23,8 @@ export interface CustomEducationItem {
   period: string;
   institution: string;
   degree: string;
+  field?: string;
+  status?: string;
   description?: string;
 }
 
@@ -32,6 +36,7 @@ export interface CustomFormationItem {
   duration?: string;
   description: string;
   hasAttestation: boolean;
+  details?: string;
 }
 
 export interface CustomCertificationItem {
@@ -39,17 +44,42 @@ export interface CustomCertificationItem {
   title: string;
   issuer: string;
   date?: string;
+  type?: string;
+  domain?: string;
   refNumber?: string;
   verifyUrl?: string;
+  description?: string;
 }
 
 export interface CustomProjectItem {
   id: string;
   name: string;
   description: string;
+  role?: string;
+  period?: string;
   imageUrl?: string;
   link?: string;
   tools: string[];
+  results?: string;
+}
+
+export interface CustomToolItem {
+  id?: string;
+  name: string;
+  category: string;
+  description?: string;
+  icon?: string;
+  level?: string;
+}
+
+export interface CustomWikimediaData {
+  enabled: boolean;
+  title?: string;
+  badge?: string;
+  subtitle?: string;
+  paragraphs: string[];
+  highlights: Array<{ label: string; desc: string }>;
+  links?: Array<{ label: string; url: string }>;
 }
 
 export interface CustomPortfolioData {
@@ -66,6 +96,7 @@ export interface CustomPortfolioData {
     tagline: string;
     heroSummary: string;
     presentation: string;
+    highlights?: string[];
   };
   skills: CustomSkillItem[];
   experiences: CustomExperienceItem[];
@@ -76,13 +107,15 @@ export interface CustomPortfolioData {
     enabled: boolean;
     items: CustomProjectItem[];
   };
-  tools: string[];
+  tools: Array<string | CustomToolItem>;
+  wikimedia?: CustomWikimediaData;
   languages?: {
     id?: string;
     name: string;
     level?: string;
   }[];
   interests?: string[];
+  availabilityNotice?: string;
   references?: {
     id?: string;
     name: string;
@@ -107,5 +140,7 @@ export interface CustomPortfolioData {
     instagram?: string;
     website?: string;
     other?: string;
+    customLinks?: Array<{ label: string; url: string }>;
   };
 }
+

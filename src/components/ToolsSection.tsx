@@ -139,31 +139,40 @@ export const ToolsSection: React.FC = () => {
             </div>
           ) : (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-              {data.tools.map((toolName, idx) => (
-                <ScrollReveal
-                  key={idx}
-                  animation="scale"
-                  delay={(idx % 6) * 50}
-                  className="h-full"
-                >
-                  <div className="bg-white rounded-xl p-4 border border-slate-200 shadow-xs hover:shadow-md hover:border-blue-300 transition-all flex flex-col justify-between group h-full">
-                    <div>
-                      <div className="w-10 h-10 rounded-lg bg-blue-50 border border-blue-100 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
-                        {getToolIcon(toolName)}
+              {data.tools.map((item, idx) => {
+                const toolName = typeof item === 'string' ? item : item.name;
+                const toolLevel = typeof item === 'string' ? (isEn ? 'Mastered' : 'Maîtrisé') : (item.level || (isEn ? 'Mastered' : 'Maîtrisé'));
+                const toolCategory = typeof item === 'string' ? '' : item.category;
+
+                return (
+                  <ScrollReveal
+                    key={idx}
+                    animation="scale"
+                    delay={(idx % 6) * 50}
+                    className="h-full"
+                  >
+                    <div className="bg-white rounded-xl p-4 border border-slate-200 shadow-xs hover:shadow-md hover:border-blue-300 transition-all flex flex-col justify-between group h-full">
+                      <div>
+                        <div className="w-10 h-10 rounded-lg bg-blue-50 border border-blue-100 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
+                          {getToolIcon(toolName)}
+                        </div>
+
+                        <h3 className="text-sm font-bold text-slate-900 font-heading leading-tight mb-1">
+                          {toolName}
+                        </h3>
+                        {toolCategory && (
+                          <p className="text-[10px] text-slate-500 truncate">{toolCategory}</p>
+                        )}
                       </div>
 
-                      <h3 className="text-sm font-bold text-slate-900 font-heading leading-tight mb-1">
-                        {toolName}
-                      </h3>
+                      <div className="mt-3 pt-2 border-t border-slate-100 flex items-center justify-between text-[10px] text-slate-400">
+                        <span className="truncate">{toolLevel}</span>
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0 ml-1"></span>
+                      </div>
                     </div>
-
-                    <div className="mt-3 pt-2 border-t border-slate-100 flex items-center justify-between text-[10px] text-slate-400">
-                      <span>{isEn ? 'Mastered' : 'Maîtrisé'}</span>
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                    </div>
-                  </div>
-                </ScrollReveal>
-              ))}
+                  </ScrollReveal>
+                );
+              })}
             </div>
           )
         ) : (
