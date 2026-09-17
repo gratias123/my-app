@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Plus, Trash2, Briefcase, ChevronDown, ChevronUp, MapPin, Calendar, Wrench, CheckCircle } from 'lucide-react';
 import { CustomPortfolioData, CustomExperienceItem } from '../../../types/portfolioBuilder';
+import { formatToolsList } from '../../../utils/toolUtils';
 
 interface AdminExperiencesTabProps {
   data: CustomPortfolioData;
@@ -256,7 +257,7 @@ export const AdminExperiencesTab: React.FC<AdminExperiencesTabProps> = ({ data, 
                       </label>
                       <input
                         type="text"
-                        value={(exp.tools || []).join(', ')}
+                        value={formatToolsList(exp.tools)}
                         onChange={(e) =>
                           updateExperience(exp.id, {
                             tools: e.target.value

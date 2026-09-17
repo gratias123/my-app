@@ -3,6 +3,7 @@ import { FolderGit2, ExternalLink, Code2 } from 'lucide-react';
 import { usePortfolio } from '../context/PortfolioContext';
 import { useLanguage } from '../context/LanguageContext';
 import { ScrollReveal } from './ScrollReveal';
+import { getToolName } from '../utils/toolUtils';
 
 export const ProjectsSection: React.FC = () => {
   const { data } = usePortfolio();
@@ -66,14 +67,18 @@ export const ProjectsSection: React.FC = () => {
                   <div>
                     {proj.tools && proj.tools.length > 0 && (
                       <div className="flex flex-wrap gap-1.5 mb-4">
-                        {proj.tools.map((tItem, tIdx) => (
-                          <span
-                            key={tIdx}
-                            className="px-2 py-0.5 rounded text-[11px] font-medium bg-slate-100 text-slate-700 border border-slate-200"
-                          >
-                            {tItem}
-                          </span>
-                        ))}
+                        {proj.tools.map((tItem, tIdx) => {
+                          const name = getToolName(tItem);
+                          if (!name) return null;
+                          return (
+                            <span
+                              key={tIdx}
+                              className="px-2 py-0.5 rounded text-[11px] font-medium bg-slate-100 text-slate-700 border border-slate-200"
+                            >
+                              {name}
+                            </span>
+                          );
+                        })}
                       </div>
                     )}
 

@@ -23,6 +23,7 @@ import {
   FolderGit2,
   CheckCircle2,
 } from 'lucide-react';
+import { getToolName, formatToolsList } from '../../utils/toolUtils';
 
 interface StepProps {
   data: CustomPortfolioData;
@@ -1139,7 +1140,7 @@ export const StepProjects: React.FC<StepProps> = ({ data, onChange }) => {
                   <input
                     type="text"
                     placeholder="Ex : React, Tailwind, Figma, Photoshop"
-                    value={proj.tools.join(', ')}
+                    value={formatToolsList(proj.tools)}
                     onChange={(e) =>
                       handleUpdateProj(
                         idx,
@@ -1219,20 +1220,24 @@ export const StepToolsAndLinks: React.FC<StepProps> = ({ data, onChange }) => {
         </p>
         <textarea
           rows={3}
-          value={data.tools.join(', ')}
+          value={formatToolsList(data.tools)}
           onChange={(e) => handleToolsChange(e.target.value)}
           className="w-full text-xs px-3 py-2 bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
         />
 
         <div className="flex flex-wrap gap-1.5 pt-1">
-          {data.tools.map((t, idx) => (
-            <span
-              key={idx}
-              className="px-2.5 py-1 bg-white border border-slate-200 rounded-md text-xs font-medium text-slate-700 shadow-2xs"
-            >
-              {t}
-            </span>
-          ))}
+          {data.tools.map((t, idx) => {
+            const name = getToolName(t);
+            if (!name) return null;
+            return (
+              <span
+                key={idx}
+                className="px-2.5 py-1 bg-white border border-slate-200 rounded-md text-xs font-medium text-slate-700 shadow-2xs"
+              >
+                {name}
+              </span>
+            );
+          })}
         </div>
       </div>
 

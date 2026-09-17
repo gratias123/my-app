@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { CustomPortfolioData } from '../types/portfolioBuilder';
 import { SEMAKO_MODEL_DATA } from '../utils/portfolioModelAdapter';
+import { formatToolsList } from '../utils/toolUtils';
 
 interface PrintResumeModalProps {
   isOpen: boolean;
@@ -403,7 +404,7 @@ export const mapCustomDataToResumeSections = (
               {exp.tools && exp.tools.length > 0 && (
                 <p className="text-[11px] text-slate-500 mt-1">
                   <strong className="text-slate-700">Outils & technologies :</strong>{' '}
-                  {exp.tools.join(', ')}
+                  {formatToolsList(exp.tools)}
                 </p>
               )}
             </div>
@@ -601,7 +602,7 @@ export const mapCustomDataToResumeSections = (
                 {proj.tools && proj.tools.length > 0 && (
                   <p className="text-[11px] text-slate-500 mt-0.5">
                     <strong className="text-slate-700">Technologies :</strong>{' '}
-                    {proj.tools.join(', ')}
+                    {formatToolsList(proj.tools)}
                   </p>
                 )}
               </div>

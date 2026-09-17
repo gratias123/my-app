@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Plus, Trash2, FolderGit2, ExternalLink, Calendar, UserCheck, CheckCircle2 } from 'lucide-react';
 import { CustomPortfolioData, CustomProjectItem } from '../../../types/portfolioBuilder';
+import { formatToolsList } from '../../../utils/toolUtils';
 
 interface AdminProjectsTabProps {
   data: CustomPortfolioData;
@@ -194,7 +195,7 @@ export const AdminProjectsTab: React.FC<AdminProjectsTabProps> = ({ data, onChan
                   </label>
                   <input
                     type="text"
-                    value={(proj.tools || []).join(', ')}
+                    value={formatToolsList(proj.tools)}
                     onChange={(e) =>
                       updateProject(proj.id, {
                         tools: e.target.value

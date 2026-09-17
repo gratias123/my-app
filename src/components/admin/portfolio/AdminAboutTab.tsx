@@ -84,6 +84,31 @@ export const AdminAboutTab: React.FC<AdminAboutTabProps> = ({ data, onChange }) 
         </div>
 
         <div>
+          <label className="text-xs font-semibold text-slate-300 block mb-1">
+            Points forts / Approche professionnelle (1 par ligne)
+          </label>
+          <textarea
+            rows={4}
+            value={(data.about.highlights || []).join('\n')}
+            onChange={(e) => {
+              const lines = e.target.value.split('\n').map((l) => l.trim()).filter(Boolean);
+              onChange({
+                ...data,
+                about: {
+                  ...data.about,
+                  highlights: lines,
+                },
+              });
+            }}
+            className="w-full bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-xs text-white focus:outline-none focus:border-blue-500 leading-relaxed font-sans"
+            placeholder="Ex: Diagnostic méthodique des parcs informatiques&#10;Création visuelle soignée sous Photoshop et Figma&#10;Maintenance de smartphones Android et iOS..."
+          />
+          <span className="text-[11px] text-slate-500 mt-1 block">
+            Ces points s'affichent sous la présentation dans la section "À propos de moi".
+          </span>
+        </div>
+
+        <div>
           <label className="text-xs font-semibold text-slate-300 flex items-center gap-1.5 mb-1">
             <Clock className="w-3.5 h-3.5 text-emerald-400" />
             <span>Avis de disponibilité & Déplacements</span>
