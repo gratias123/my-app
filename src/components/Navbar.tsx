@@ -5,6 +5,7 @@ import { useRouter } from '../context/RouterContext';
 import { usePortfolio } from '../context/PortfolioContext';
 import { useLanguage } from '../context/LanguageContext';
 import { PERSONAL_INFO } from '../data/portfolioData';
+import semakoLogo from '../assets/images/semako_logo_1789639914967.jpg';
 
 interface NavbarProps {
   onOpenPrint: () => void;
@@ -87,9 +88,12 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenPrint, onNavigate }) => {
               className="flex items-center gap-1.5 text-white font-bold text-xs tracking-tight hover:text-blue-400 transition-colors shrink-0 min-w-0"
               title={`${currentName} - ${t('nav.home')}`}
             >
-              <span className="w-6 h-6 rounded-md bg-blue-600 flex items-center justify-center text-[10px] font-extrabold text-white shadow-xs shrink-0">
-                {initials}
-              </span>
+              <img
+                src={semakoLogo}
+                alt="Logo SEMAKO"
+                className="w-6 h-6 rounded-md object-cover ring-1 ring-blue-500/50 shadow-xs shrink-0"
+                referrerPolicy="no-referrer"
+              />
               <span className="font-heading truncate max-w-[150px] min-[380px]:max-w-[190px] text-slate-100">
                 {currentName}
               </span>
@@ -137,12 +141,15 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenPrint, onNavigate }) => {
           {/* Identité sur Desktop */}
           <a
             href="#accueil"
-            className="flex items-center gap-2 text-white font-bold text-sm tracking-tight hover:text-blue-400 transition-colors"
+            className="flex items-center gap-2.5 text-white font-bold text-sm tracking-tight hover:text-blue-400 transition-colors group"
             title={`${currentName} - ${t('nav.home')}`}
           >
-            <span className="w-7 h-7 rounded-lg bg-blue-600/90 border border-blue-500/50 flex items-center justify-center text-xs font-bold text-white shadow-xs">
-              {initials}
-            </span>
+            <img
+              src={semakoLogo}
+              alt="Logo SEMAKO"
+              className="w-7 h-7 rounded-lg object-cover ring-1 ring-blue-500/50 shadow-xs group-hover:ring-blue-400 transition-all"
+              referrerPolicy="no-referrer"
+            />
             <span className="font-heading">{currentName}</span>
           </a>
 
